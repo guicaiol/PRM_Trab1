@@ -1,0 +1,28 @@
+
+Dimensões dos robôs: 0.4 x 0.511 x 0.22 
+
+define pioneer2dx pioneer2dx_base
+(  
+  # simplified Body shape:
+  block( 
+    points 8
+    point[0] [-0.2 0.12]
+    point[1] [-0.2 -0.12]
+    point[2] [-0.12 -0.2555]
+    point[3] [0.12 -0.2555]
+    point[4] [0.2 -0.12]
+    point[5] [0.2 0.12]
+    point[6] [0.12 0.2555]
+    point[7] [-0.12 0.2555]
+    z [0 0.22]
+  )
+)
+
+      0.24
+       __
+      /  \  |
+0.24  |  |  |
+      |  |  | 0.511
+      \__/  |
+      ____
+      0.40
