@@ -49,9 +49,9 @@ public:
     void setBehavior(Behavior *behavior);
 
     // Locomotion layer 1
-    void goTo(const Position &destination);
-    void goToLookTo(const Position &destination, const Position &posToLook);
-    void lookTo(const Position &position);
+    void goTo(const Position &destination, bool avoidObstacles);
+    void goToLookTo(const Position &destination, const Position &posToLook, bool avoidObstacles);
+    void lookTo(const Position &position, bool avoidObstacles);
     void idle();
 
     // Locomotion layer 0

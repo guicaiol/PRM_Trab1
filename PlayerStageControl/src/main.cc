@@ -33,7 +33,7 @@ int main(int argc, const char **argv) {
     ExitHandler::setup();
 
     // Create player
-    Player player;
+    Player player("localhost", 6675);
 
     // Connect
     if(player.connect()==false) {
@@ -43,7 +43,7 @@ int main(int argc, const char **argv) {
 
     // Create behavior
     Behavior_GoTo *bh_goTo = new Behavior_GoTo();
-    bh_goTo->setDestination(Position(0, -5));
+    bh_goTo->setDestination(Position(23, 6));
     bh_goTo->setPosToLook(Position(0, 0));
 
     // Run

@@ -21,19 +21,49 @@
  ***/
 
 #include "navigation.hh"
+#include <PlayerStageControl/player/player.hh>
+#include <PlayerStageControl/player/sensor/laser/laser.hh>
+#include <PlayerStageControl/player/navigation/navigationalgorithm/PF/pf.hh>
 
-Navigation::Navigation() {
+Navigation::Navigation(Player *player, Laser *laser) {
+    _player = player;
+    _laser = laser;
 
+    // Create NavigationAlgorithm
+    _navAlg = new PF();
 }
 
-float Navigation::getDirection() {
+float Navigation::getDirection(const Position &destination, bool avoidObstacles) {
 
-}
+    // Reset nav alg
+    _navAlg->reset();
 
-float Navigation::getLinearSpeed() {
+    // Set origin
+    _navAlg->setOrigin(_player->position());
 
-}
+    // Set goal
+    _navAlg->setGoal(destination);
 
-float Navigation::getAngularSpeed() {
+    // Add obstacles
+    if(avoidObstacles) {
 
+        // Add laser detected obstacles
+        for(int i=0; i<_laser->getScanCount(); i++) {
+            float range = _laser->getRange(i);
+            float angle = _laser->getBearing(i);
+
+            if(range > 3.0)
+                continue;
+
+            float globalAngle = _player->orientation() + angle;
+            Position obstacle(_player->position().x() + range*cos(globalAngle), _player->position().y() + range*sin(globalAngle));
+
+//            std::cout << "adding beam, range=" << range << ", angle=" << Utils::toDegree(angle) << ", globalAngle=" << Utils::toDegree(globalAngle) << ", pos: x=" << obstacle.x() << ", y= " << obstacle.y() << "\n";
+
+            _navAlg->addObstacle(obstacle);
+        }
+
+    }
+
+    return _navAlg->getDirection();
 }

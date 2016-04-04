@@ -28,7 +28,7 @@ Behavior_GoTo::Behavior_GoTo() {
 }
 
 void Behavior_GoTo::run() {
-    player()->goToLookTo(_destination, _posToLook);
+    player()->goToLookTo(_destination, _posToLook, true);
 
-    std::cout << "position: x=" << player()->position().x() << ", y=" << player()->position().y() << "\n";
+    std::cout << "position: x=" << player()->position().x() << ", y=" << player()->position().y() << ", a=" << Utils::toDegree(player()->orientation()) << "\n";
 }

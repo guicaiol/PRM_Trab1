@@ -20,20 +20,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef NAVIGATIONALGORITHM_HH
-#define NAVIGATIONALGORITHM_HH
-
-#include <PlayerStageControl/utils/utils.hh>
-
-class NavigationAlgorithm {
-public:
-    NavigationAlgorithm();
-
-    virtual void reset() = 0;
-    virtual void setOrigin(const Position &origin) = 0;
-    virtual void setGoal(const Position &goal) = 0;
-    virtual void addObstacle(const Position &obst) = 0;
-    virtual float getDirection() = 0;
-};
-
-#endif // NAVIGATIONALGORITHM_HH
+#include "vector.hh"

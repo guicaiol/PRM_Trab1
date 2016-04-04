@@ -21,3 +21,7 @@
  ***/
 
 #include "navigationalgorithm.hh"
+
+NavigationAlgorithm::NavigationAlgorithm() {
+
+}

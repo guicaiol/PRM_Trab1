@@ -21,3 +21,55 @@
  ***/
 
 #include "pf.hh"
+
+#define REPULSIVE_K 0.01
+#define FACTOR 1.6
+
+PF::PF() {
+
+}
+
+void PF::reset() {
+    _origin.set(0, 0);
+    _goal.set(0, 0);
+    _resultantForce.setVector(0, 0);
+}
+
+void PF::setOrigin(const Position &origin) {
+    _origin = origin;
+}
+
+void PF::setGoal(const Position &goal) {
+    _goal = goal;
+    addAttractive(getVector(_origin, _goal));
+}
+
+void PF::addObstacle(const Position &obst) {
+    addRepulsive(getVector(obst, _origin), REPULSIVE_K);
+}
+
+float PF::getDirection() {
+    float resultantAngle = atan2(_resultantForce.y(), _resultantForce.x());
+    return resultantAngle;
+}
+
+void PF::addRepulsive(const Vector &v, float k) {
+    addForce(applyDistanceFunction(v, k));
+}
+
+void PF::addAttractive(const Vector &v) {
+    addForce(v.getUnitary());
+}
+
+void PF::addForce(const Vector &v) {
+    _resultantForce += v;
+}
+
+Vector PF::applyDistanceFunction(Vector v, float k) {
+    const float d = v.getModule();
+    return (v.getUnitary() * k)/pow(d, FACTOR);
+}
+
+Vector PF::getVector(const Position &v1, const Position &v2) {
+    return Vector(v2.x()-v1.x(), v2.y()-v1.y());
+}

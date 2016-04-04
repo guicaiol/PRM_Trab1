@@ -23,18 +23,29 @@
 #ifndef NAVIGATION_HH
 #define NAVIGATION_HH
 
+#include <PlayerStageControl/player/navigation/navigationalgorithm/navigationalgorithm.hh>
+#include <PlayerStageControl/player/baseplayer.hh>
+#include <PlayerStageControl/player/sensor/basesensors.hh>
+
 class Navigation {
 public:
-    Navigation();
+    Navigation(Player *player, Laser *laser);
 
     // Path planning
-    float getDirection();
+    float getDirection(const Position &destination, bool avoidObstacles);
 
     // Velocity control
-    float getLinearSpeed();
-    float getAngularSpeed();
+//    float getLinearSpeed();
+//    float getAngularSpeed();
 private:
+    // Player access
+    Player *_player;
 
+    // Laser access
+    Laser *_laser;
+
+    // NavAlg
+    NavigationAlgorithm *_navAlg;
 };
 
 #endif // NAVIGATION_HH

@@ -60,7 +60,8 @@ SOURCES += \
     src/PlayerStageControl/player/sensor/odometer/odometer.cc \
     src/PlayerStageControl/player/sensor/sensor.cc \
     src/PlayerStageControl/player/sensor/sensors.cc \
-    src/PlayerStageControl/player/sensor/basesensors.cc
+    src/PlayerStageControl/player/sensor/basesensors.cc \
+    src/PlayerStageControl/utils/vector.cc
 
 # Header files
 HEADERS += \
@@ -80,7 +81,8 @@ HEADERS += \
     src/PlayerStageControl/player/sensor/odometer/odometer.hh \
     src/PlayerStageControl/player/sensor/sensor.hh \
     src/PlayerStageControl/player/sensor/sensors.hh \
-    src/PlayerStageControl/player/sensor/basesensors.hh
+    src/PlayerStageControl/player/sensor/basesensors.hh \
+    src/PlayerStageControl/utils/vector.hh
 
 # Other files
 DISTFILES += \

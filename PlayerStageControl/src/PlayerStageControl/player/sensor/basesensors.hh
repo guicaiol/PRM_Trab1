@@ -23,6 +23,7 @@
 #ifndef BASESENSORS_HH
 #define BASESENSORS_HH
 
+class Sensor;
 class Odometer;
 class Laser;
 

@@ -24,9 +24,35 @@
 #define PH_HH
 
 #include <PlayerStageControl/player/navigation/navigationalgorithm/navigationalgorithm.hh>
+#include <PlayerStageControl/utils/vector.hh>
 
 class PF : public NavigationAlgorithm {
-    /// TODO: implement!
+public:
+    PF();
+
+    void reset();
+    void setOrigin(const Position &origin);
+    void setGoal(const Position &goa);
+    void addObstacle(const Position &obst);
+    float getDirection();
+private:
+    // Forces
+    void addRepulsive(const Vector &v, float k);
+    void addAttractive(const Vector &v);
+    void addForce(const Vector &v);
+
+    // Distance function
+    Vector applyDistanceFunction(Vector v, float k);
+
+    // Auxiliary functions
+    static Vector getVector(const Position &v1, const Position &v2);
+
+    // Goal and origin
+    Position _origin;
+    Position _goal;
+
+    // Resultant force
+    Vector _resultantForce;
 };
 
 #endif // PH_HH

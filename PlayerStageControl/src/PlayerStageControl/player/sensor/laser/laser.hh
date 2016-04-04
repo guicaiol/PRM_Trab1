@@ -36,7 +36,9 @@ public:
     float getRangeResolution();
     float getMaxRange();
     float getScanStart();
+    float getScanStop();
     float getScanResolution();
+    int getScanCount();
 
     bool connect();
     bool disconnect();

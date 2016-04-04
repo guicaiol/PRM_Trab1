@@ -56,8 +56,17 @@ float Laser::getScanStart() {
     return _laser->scan_start;
 }
 
+float Laser::getScanStop() {
+    return _laser->scan_start + _laser->scan_count*getScanResolution();
+}
+
 float Laser::getScanResolution() {
     return _laser->scan_res;
+}
+
+int Laser::getScanCount() {
+    return _laser->scan_count;
+
 }
 
 bool Laser::connect() {

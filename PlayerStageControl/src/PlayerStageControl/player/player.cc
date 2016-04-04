@@ -23,26 +23,26 @@
 #include "player.hh"
 #include <iostream>
 #include <PlayerStageControl/player/behavior/behavior.hh>
+#include <PlayerStageControl/player/navigation/navigation.hh>
 #include <PlayerStageControl/player/sensor/sensors.hh>
 
 Player::Player(const char *host, int port) {
     // Create player
     _client = playerc_client_create(NULL, host, port);
 
-    // Create navigation
-   //_nav = new Navigation();
-    /// TODO: alloc Navigation!
-
     // Create sensors
     _odometer = new Odometer(_client);
     _laser = new Laser(_client);
 
+    // Create navigation
+    _nav = new Navigation(this, _laser);
+
     // Initialization
     _behavior = NULL;
-    _lError = 0.05;
-    _aError = Utils::toRadians(4);
-    _maxLSpeed = 2.0;
-    _maxASpeed = Utils::toRadians(250);
+    _lError = 0.10;
+    _aError = Utils::toRadians(5);
+    _maxLSpeed = 1.2;
+    _maxASpeed = Utils::toRadians(1000);
 }
 
 Player::~Player() {
@@ -87,7 +87,7 @@ float Player::getAngularSpeed(float angError) {
     if(angError < -Utils::pi())
         angError += Utils::twoPi();
 
-    float kp = 3.0;
+    float kp = 1.5;
     float speed = kp*angError;
 
     float signal = speed/fabs(speed);
@@ -141,22 +141,18 @@ void Player::setBehavior(Behavior *behavior) {
     _behavior->initialize(this);
 }
 
-void Player::goTo(const Position &destination) {
-    goToLookTo(destination, Position());
+void Player::goTo(const Position &destination, bool avoidObstacles) {
+    goToLookTo(destination, Position(), avoidObstacles);
 }
 
-void Player::goToLookTo(const Position &destination, const Position &posToLook) {
+void Player::goToLookTo(const Position &destination, const Position &posToLook, bool avoidObstacles) {
 
     // Calc dist error
     float distError = Utils::distance(destination, position());
 
-    // Calc ang error
-    /// TODO: calc ang error based on navAlg direction vector
-//    float targetAngle = _nav->getDirection();
-
     // setSpeed
     if(isAtPosition(destination)==false) {
-        float targetAngle = Utils::getAngle(position(), destination);
+        float targetAngle = _nav->getDirection(destination, avoidObstacles);
         float angError = targetAngle - orientation();
 
         float speedX = getLinearSpeed(distError);
@@ -176,8 +172,8 @@ void Player::goToLookTo(const Position &destination, const Position &posToLook) 
     }
 }
 
-void Player::lookTo(const Position &posToLook) {
-    goToLookTo(position(), posToLook);
+void Player::lookTo(const Position &posToLook, bool avoidObstacles) {
+    goToLookTo(position(), posToLook, avoidObstacles);
 }
 
 void Player::idle() {
