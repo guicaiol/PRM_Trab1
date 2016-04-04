@@ -1,5 +1,5 @@
 
-Dimensões dos robôs: 0.4 x 0.511 x 0.22
+Dimensões dos robôs: 0.4 x 0.511 x 0.22 
 
 define pioneer2dx pioneer2dx_base
 (  
