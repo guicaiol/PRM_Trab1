@@ -33,7 +33,7 @@ int main(int argc, const char **argv) {
     ExitHandler::setup();
 
     // Create player
-    Player player("localhost", 6675);
+    Player player("localhost", 6677);
 
     // Connect
     if(player.connect()==false) {

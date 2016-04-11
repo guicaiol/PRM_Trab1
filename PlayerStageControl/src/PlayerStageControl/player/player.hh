@@ -37,6 +37,9 @@ public:
     bool connect();
     bool disconnect();
 
+    // Devices access
+    Gripper* gripper() { return _gripper; }
+
     // Player position and orientation
     Position position() const;
     float orientation() const;
@@ -77,6 +80,7 @@ private:
     // Sensors
     Odometer *_odometer;
     Laser *_laser;
+    Gripper *_gripper;
 
     // Errors
     float _lError;

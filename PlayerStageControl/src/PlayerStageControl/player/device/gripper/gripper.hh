@@ -30,13 +30,22 @@ public:
     Gripper(playerc_client_t *client);
     ~Gripper();
 
+    // State enum
+    enum GripperState {UNAVAILABLE, OPEN, CLOSED, MOVING};
+
     // Gets
+    GripperState state();
 
-
-    bool connect();
-    bool disconnect();
+    // Sets
+    void open();
+    void close();
 private:
     playerc_gripper_t *_gripper;
+
+    // Inheritance implementation (called by Player)
+    friend class Player;
+    bool connect();
+    bool disconnect();
 };
 
 #endif // GRIPPER_HH

@@ -22,6 +22,7 @@
 
 #include "behavior_goto.hh"
 #include <PlayerStageControl/player/player.hh>
+#include <PlayerStageControl/player/device/devices.hh>
 
 Behavior_GoTo::Behavior_GoTo() {
 
@@ -30,5 +31,14 @@ Behavior_GoTo::Behavior_GoTo() {
 void Behavior_GoTo::run() {
     player()->goToLookTo(_destination, _posToLook, true);
 
-    std::cout << "position: x=" << player()->position().x() << ", y=" << player()->position().y() << ", a=" << Utils::toDegree(player()->orientation()) << "\n";
+
+    std::cout << "state: " << player()->gripper()->state() << "\n";
+
+    if(player()->isAtPosition(_destination)) {
+        player()->gripper()->close();
+    } else {
+        player()->gripper()->open();
+    }
+
+//    std::cout << "position: x=" << player()->position().x() << ", y=" << player()->position().y() << ", a=" << Utils::toDegree(player()->orientation()) << "\n";
 }

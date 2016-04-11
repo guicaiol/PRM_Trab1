@@ -40,10 +40,13 @@ public:
     float getScanResolution();
     int getScanCount();
 
-    bool connect();
-    bool disconnect();
 private:
     playerc_laser_t *_laser;
+
+    // Inheritance implementation (called by Player)
+    friend class Player;
+    bool connect();
+    bool disconnect();
 };
 
 #endif // LASER_HH

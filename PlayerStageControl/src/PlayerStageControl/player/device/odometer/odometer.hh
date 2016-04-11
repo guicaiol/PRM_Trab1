@@ -37,10 +37,13 @@ public:
     // Sets
     void setSpeed(float x, float y, float theta);
 
-    bool connect();
-    bool disconnect();
 private:
     playerc_position2d_t *_odometer;
+
+    // Inheritance implementation (called by Player)
+    friend class Player;
+    bool connect();
+    bool disconnect();
 };
 
 #endif // ODOMETER_HH

@@ -33,6 +33,7 @@ Player::Player(const char *host, int port) {
     // Create sensors
     _odometer = new Odometer(_client);
     _laser = new Laser(_client);
+    _gripper = new Gripper(_client);
 
     // Create navigation
     _nav = new Navigation(this, _laser);
@@ -46,6 +47,14 @@ Player::Player(const char *host, int port) {
 }
 
 Player::~Player() {
+    // Delete sensors
+    delete _odometer;
+    delete _laser;
+    delete _gripper;
+
+    // Delete navigation
+    delete _nav;
+
     // Destroy playerc client
     playerc_client_destroy(_client);
 }
@@ -103,6 +112,7 @@ void Player::initialization() {
     // Connect sensors
     _odometer->connect();
     _laser->connect();
+    _gripper->connect();
 
     // Update first time
     update();
@@ -124,6 +134,7 @@ void Player::finalization() {
     // Disconnect sensors
     _odometer->disconnect();
     _laser->disconnect();
+    _gripper->disconnect();
 }
 
 bool Player::isAtPosition(const Position &pos) {

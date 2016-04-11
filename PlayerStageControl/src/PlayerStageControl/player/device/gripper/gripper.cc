@@ -30,6 +30,18 @@ Gripper::~Gripper() {
     playerc_gripper_destroy(_gripper);
 }
 
+Gripper::GripperState Gripper::state() {
+    return (GripperState)_gripper->state;
+}
+
+void Gripper::open() {
+    playerc_gripper_open_cmd(_gripper);
+}
+
+void Gripper::close() {
+    playerc_gripper_close_cmd(_gripper);
+}
+
 bool Gripper::connect() {
     return (playerc_gripper_subscribe(_gripper, PLAYERC_OPEN_MODE));
 }
