@@ -23,7 +23,7 @@
 #include "pf.hh"
 
 #define REPULSIVE_K 0.01
-#define FACTOR 1.6
+#define FACTOR 1.0
 
 PF::PF() {
 

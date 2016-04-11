@@ -33,7 +33,8 @@ CONFIG -= qt app_bundle
 
 # Libs
 LIBS += -lplayerc -L/usr/local/lib64 -pthread
-INCLUDEPATH += /usr/local/include/player-3.0
+#INCLUDEPATH += /usr/local/include/player-3.0
+INCLUDEPATH += /usr/include/player-3.0
 
 # Temporary dirs
 OBJECTS_DIR = tmp/obj

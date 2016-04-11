@@ -52,7 +52,7 @@ float Navigation::getDirection(const Position &destination, bool avoidObstacles)
             float range = _laser->getRange(i);
             float angle = _laser->getBearing(i);
 
-            if(range > 3.0)
+            if(range > 5.0)
                 continue;
 
             float globalAngle = _player->orientation() + angle;

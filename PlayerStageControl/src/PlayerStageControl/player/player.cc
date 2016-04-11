@@ -42,7 +42,7 @@ Player::Player(const char *host, int port) {
     _lError = 0.10;
     _aError = Utils::toRadians(5);
     _maxLSpeed = 1.2;
-    _maxASpeed = Utils::toRadians(1000);
+    _maxASpeed = Utils::toRadians(100);
 }
 
 Player::~Player() {
@@ -73,11 +73,11 @@ void Player::printError() {
 }
 
 float Player::getLinearSpeed(float distError) {
-    float kp = 4.0;
+    float kp = 2.0;
     float speed = kp*distError;
 
     float signal = speed/fabs(speed);
-    return (speed>_maxLSpeed? signal*_maxLSpeed : distError);
+    return (speed>_maxLSpeed? signal*_maxLSpeed : speed);
 }
 
 float Player::getAngularSpeed(float angError) {
