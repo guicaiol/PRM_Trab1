@@ -63,7 +63,9 @@ SOURCES += \
     src/PlayerStageControl/player/device/device.cc \
     src/PlayerStageControl/player/device/gripper/gripper.cc \
     src/PlayerStageControl/player/device/basedevices.cc \
-    src/PlayerStageControl/player/device/devices.cc
+    src/PlayerStageControl/player/device/devices.cc \
+    src/PlayerStageControl/player/device/blobfinder/blobfinder.cc \
+    src/PlayerStageControl/player/device/blobfinder/blob.cc
 
 # Header files
 HEADERS += \
@@ -85,7 +87,9 @@ HEADERS += \
     src/PlayerStageControl/player/device/device.hh \
     src/PlayerStageControl/player/device/devices.hh \
     src/PlayerStageControl/player/device/basedevices.hh \
-    src/PlayerStageControl/player/device/gripper/gripper.hh
+    src/PlayerStageControl/player/device/gripper/gripper.hh \
+    src/PlayerStageControl/player/device/blobfinder/blobfinder.hh \
+    src/PlayerStageControl/player/device/blobfinder/blob.hh
 
 # Other files
 DISTFILES += \
