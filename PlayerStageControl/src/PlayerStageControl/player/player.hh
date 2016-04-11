@@ -80,7 +80,11 @@ private:
     // Sensors
     Odometer *_odometer;
     Laser *_laser;
+<<<<<<< HEAD
     Gripper *_gripper;
+=======
+    BlobFinder *_blobfinder;
+>>>>>>> 8ec2a30c91e9386f10349387cf1b76f1164f5591
 
     // Errors
     float _lError;

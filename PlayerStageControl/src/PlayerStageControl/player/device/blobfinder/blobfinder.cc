@@ -20,12 +20,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef DEVICES_HH
-#define DEVICES_HH
+#include "blobfinder.hh"
 
-#include "odometer/odometer.hh"
-#include "laser/laser.hh"
-#include "gripper/gripper.hh"
-#include "blobfinder/blobfinder.hh"
 
-#endif // DEVICES_HH
+BlobFinder::BlobFinder(playerc_client_t *client) {
+    _blobfinder = playerc_blobfinder_create(client, 0);
+}
+
+BlobFinder::~BlobFinder() {
+    playerc_blobfinder_destroy(_blobfinder);
+}
+
+Blob BlobFinder::getBlob(int index){
+    return Blob(_blobfinder->blobs[index]);
+}
+
+int BlobFinder::getNumBlobs() {
+    return _blobfinder->blobs_count;
+}
+
+bool BlobFinder::connect() {
+    return (playerc_blobfinder_subscribe(_blobfinder, PLAYERC_OPEN_MODE));
+}
+
+bool BlobFinder::disconnect() {
+    return (playerc_blobfinder_unsubscribe(_blobfinder)==0);
+}
