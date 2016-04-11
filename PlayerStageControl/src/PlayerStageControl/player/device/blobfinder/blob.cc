@@ -16,18 +16,18 @@ Blob::Blob(playerc_blobfinder_blob_t blob) {
     _range = blob.range;
 }
 
-Colors::Color Blob::getColor() {
+Colors::Color Blob::getColor() const {
     return Colors::rgb2color(_color);
 }
 
-int Blob::getArea() {
+int Blob::getArea() const {
     return  _area;
 }
 
-Position Blob::getCentroid() {
+Position Blob::getCentroid() const {
     return _centroid;
 }
 
-float Blob::getRange() {
+float Blob::getRange() const {
     return _range;
 }

@@ -40,9 +40,8 @@ private:
     void search();
     void goTo();
 
-    // Selected blob to catch
-    Blob _selectedBlob;
-    bool _hasSelectedBlob;
+    // Internal
+    Blob getNearestBlob();
 };
 
 #endif // BEHAVIOR_TEST_HH

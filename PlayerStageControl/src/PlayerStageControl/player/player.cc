@@ -84,7 +84,7 @@ void Player::printError() {
 }
 
 float Player::getLinearSpeed(float distError) {
-    float kp = 2.0;
+    float kp = 0.4;
     float speed = kp*distError;
 
     float signal = speed/fabs(speed);
@@ -193,6 +193,26 @@ void Player::lookTo(const Position &posToLook, bool avoidObstacles) {
 
 void Player::idle() {
     setSpeed(0.0, 0.0, 0.0);
+}
+
+void Player::goToBlob(const Blob &blob, bool avoidObstacles) {
+    // Calc dist error
+    float distError = blob.getRange();
+
+    std::cout << "distError: " << blob.getRange() << "\n";
+
+    // setSpeed
+    if(blob.getRange() > 0.5) {
+        float speedX = getLinearSpeed(distError);
+        float speedA = 0.03*(40 - blob.getCentroid().x());
+
+        std::cout << "speedX: " << speedX << "\n";
+
+        setSpeed(speedX, 0.0, speedA);
+
+    } else {
+        idle();
+    }
 }
 
 void Player::setSpeed(float x, float y, float theta) {

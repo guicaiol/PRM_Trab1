@@ -27,6 +27,7 @@
 #include <PlayerStageControl/player/baseplayer.hh>
 #include <PlayerStageControl/player/device/basedevices.hh>
 #include <PlayerStageControl/utils/thread/thread.hh>
+#include <PlayerStageControl/player/device/blobfinder/blob.hh>
 
 class Player : public Thread {
 public:
@@ -57,6 +58,8 @@ public:
     void goToLookTo(const Position &destination, const Position &posToLook, bool avoidObstacles);
     void lookTo(const Position &position, bool avoidObstacles);
     void idle();
+
+    void goToBlob(const Blob &blob, bool avoidObstacles);
 
     // Locomotion layer 0
     void setSpeed(float x, float y, float theta);

@@ -25,8 +25,6 @@
 #include <PlayerStageControl/player/device/devices.hh>
 
 Behavior_Test::Behavior_Test() {
-    _hasSelectedBlob = false;
-
     _state = STATE_SEARCH;
 }
 
@@ -35,12 +33,14 @@ void Behavior_Test::run() {
     // Switch state machine
     switch(_state) {
         case STATE_SEARCH: {
+            std::cout << "search!\n";
             search();
         } break;
 
         case STATE_GOTO: {
+            std::cout << "goTo!\n";
             goTo();
-        }
+        } break;
 
         default:
             player()->idle();
@@ -63,29 +63,43 @@ void Behavior_Test::search() {
             Blob blob = player()->blobFinder()->getBlob(i);
 
             // Check blob color
-            if(blob.getColor()==Colors::GREEN) {
-
-                if(_hasSelectedBlob) {
-                    if(blob.getRange() < _selectedBlob.getRange())
-                        _selectedBlob = blob;
-                } else {
-                    _selectedBlob = blob;
-                    _hasSelectedBlob = true;
-                }
-
-            }
-
+            if(blob.getColor()==Colors::GREEN)
+                _state = STATE_GOTO;
         }
     }
 
-    // Switch state condition: blob found
-    if(_hasSelectedBlob)
-        _state = STATE_GOTO;
 }
 
 void Behavior_Test::goTo() {
+    player()->goToBlob(getNearestBlob(), false);
+}
 
-    player()->idle();
+Blob Behavior_Test::getNearestBlob() {
+    Blob nearestBlob;
+    bool hasNearestBlob = false;
 
 
+    int numBlobs = player()->blobFinder()->getNumBlobs();
+    if(numBlobs > 0) {
+
+        // Check blobs
+        for(int i=0; i<numBlobs; i++) {
+            Blob blob = player()->blobFinder()->getBlob(i);
+
+            // Check blob color
+            if(blob.getColor()==Colors::GREEN) {
+
+                if(hasNearestBlob) {
+                    if(blob.getRange() < nearestBlob.getRange())
+                        nearestBlob = blob;
+                } else {
+                    nearestBlob = blob;
+                    hasNearestBlob = true;
+                }
+
+            }
+        }
+    }
+
+    return nearestBlob;
 }

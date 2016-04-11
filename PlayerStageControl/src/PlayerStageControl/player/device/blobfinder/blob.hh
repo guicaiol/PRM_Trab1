@@ -11,10 +11,10 @@ public:
     Blob(playerc_blobfinder_blob_t blob);
 
     // Getters
-    Colors::Color getColor();
-    int getArea();
-    Position getCentroid();
-    float getRange();
+    Colors::Color getColor() const;
+    int getArea() const;
+    Position getCentroid() const;
+    float getRange() const;
 
 private:
     int _id;
