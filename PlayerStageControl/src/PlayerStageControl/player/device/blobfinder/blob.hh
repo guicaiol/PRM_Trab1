@@ -3,14 +3,19 @@
 
 #include <libplayerc/playerc.h>
 #include <PlayerStageControl/utils/position/position.hh>
+#include <PlayerStageControl/utils/color/color.hh>
 
 class Blob {
 public:
+    Blob();
     Blob(playerc_blobfinder_blob_t blob);
-    int getColor();
+
+    // Getters
+    Colors::Color getColor();
     int getArea();
     Position getCentroid();
     float getRange();
+
 private:
     int _id;
     int _color;

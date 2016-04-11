@@ -65,7 +65,9 @@ SOURCES += \
     src/PlayerStageControl/player/device/basedevices.cc \
     src/PlayerStageControl/player/device/devices.cc \
     src/PlayerStageControl/player/device/blobfinder/blobfinder.cc \
-    src/PlayerStageControl/player/device/blobfinder/blob.cc
+    src/PlayerStageControl/player/device/blobfinder/blob.cc \
+    src/PlayerStageControl/utils/color/color.cc \
+    src/PlayerStageControl/player/behavior/basics/behavior_test.cc
 
 # Header files
 HEADERS += \
@@ -89,7 +91,9 @@ HEADERS += \
     src/PlayerStageControl/player/device/basedevices.hh \
     src/PlayerStageControl/player/device/gripper/gripper.hh \
     src/PlayerStageControl/player/device/blobfinder/blobfinder.hh \
-    src/PlayerStageControl/player/device/blobfinder/blob.hh
+    src/PlayerStageControl/player/device/blobfinder/blob.hh \
+    src/PlayerStageControl/utils/color/color.hh \
+    src/PlayerStageControl/player/behavior/basics/behavior_test.hh
 
 # Other files
 DISTFILES += \

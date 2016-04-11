@@ -33,7 +33,7 @@ int main(int argc, const char **argv) {
     ExitHandler::setup();
 
     // Create player
-    Player player("localhost", 6677);
+    Player player("localhost", 6675);
 
     // Connect
     if(player.connect()==false) {
@@ -42,12 +42,10 @@ int main(int argc, const char **argv) {
     }
 
     // Create behavior
-    Behavior_GoTo *bh_goTo = new Behavior_GoTo();
-    bh_goTo->setDestination(Position(23, 6));
-    bh_goTo->setPosToLook(Position(0, 0));
+    Behavior_Test *bh_test = new Behavior_Test();
 
     // Run
-    player.setBehavior(bh_goTo);
+    player.setBehavior(bh_test);
     player.start();
 
     // Wait for exit
@@ -58,7 +56,7 @@ int main(int argc, const char **argv) {
     player.wait();
 
     // Delete behavior
-    delete bh_goTo;
+    delete bh_test;
 
     // Disconnect
     player.disconnect();

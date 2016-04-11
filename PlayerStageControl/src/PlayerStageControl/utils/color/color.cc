@@ -20,16 +20,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "behavior_goto.hh"
-#include <PlayerStageControl/player/player.hh>
-#include <PlayerStageControl/player/device/devices.hh>
+#include "color.hh"
 
-Behavior_GoTo::Behavior_GoTo() {
+namespace Colors {
+
+    Color rgb2color(int rgb) {
+        switch(rgb) {
+            case 0x00FF00:  return GREEN;
+            case 0x4D4D4D:  return BLACK;
+            default:    return UNDEFINED;
+        }
+    }
+
+    std::string toString(Color color) {
+        switch(color) {
+            case GREEN: return "GREEN";
+            case BLACK: return "BLACK";
+            default:    return "UNDEFINED";
+        }
+    }
 
 }
 
-void Behavior_GoTo::run() {
-    player()->goToLookTo(_destination, _posToLook, true);
 
-    std::cout << "position: x=" << player()->position().x() << ", y=" << player()->position().y() << ", a=" << Utils::toDegree(player()->orientation()) << "\n";
-}

@@ -35,10 +35,13 @@ public:
     Blob getBlob(int index);
     int getNumBlobs();
 
-    bool connect();
-    bool disconnect();
 private:
     playerc_blobfinder_t *_blobfinder;
+
+    // Inheritance implementation (called by Player)
+    friend class Player;
+    bool connect();
+    bool disconnect();
 };
 
 #endif // BLOBFINDER_H

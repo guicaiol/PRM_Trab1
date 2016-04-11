@@ -20,16 +20,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "behavior_goto.hh"
-#include <PlayerStageControl/player/player.hh>
-#include <PlayerStageControl/player/device/devices.hh>
+#ifndef BEHAVIOR_TEST_HH
+#define BEHAVIOR_TEST_HH
 
-Behavior_GoTo::Behavior_GoTo() {
+#include <PlayerStageControl/player/behavior/behavior.hh>
+#include <PlayerStageControl/player/device/blobfinder/blob.hh>
 
-}
+class Behavior_Test : public Behavior {
+public:
+    Behavior_Test();
+private:
+    void run();
 
-void Behavior_GoTo::run() {
-    player()->goToLookTo(_destination, _posToLook, true);
+    // State machine
+    int _state;
+    enum {STATE_SEARCH, STATE_GOTO, STATE_CATCH, STATE_RETRIEVE, STATE_DROP};
 
-    std::cout << "position: x=" << player()->position().x() << ", y=" << player()->position().y() << ", a=" << Utils::toDegree(player()->orientation()) << "\n";
-}
+    // States
+    void search();
+    void goTo();
+
+    // Selected blob to catch
+    Blob _selectedBlob;
+    bool _hasSelectedBlob;
+};
+
+#endif // BEHAVIOR_TEST_HH

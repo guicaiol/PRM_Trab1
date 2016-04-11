@@ -39,6 +39,7 @@ public:
 
     // Devices access
     Gripper* gripper() { return _gripper; }
+    BlobFinder* blobFinder() { return _blobfinder; }
 
     // Player position and orientation
     Position position() const;
