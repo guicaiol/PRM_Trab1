@@ -33,11 +33,8 @@ Player::Player(const char *host, int port) {
     // Create devices
     _odometer = new Odometer(_client);
     _laser = new Laser(_client);
-<<<<<<< HEAD
     _gripper = new Gripper(_client);
-=======
     _blobfinder = new BlobFinder(_client);
->>>>>>> 8ec2a30c91e9386f10349387cf1b76f1164f5591
 
     // Create navigation
     _nav = new Navigation(this, _laser);
@@ -55,6 +52,7 @@ Player::~Player() {
     delete _odometer;
     delete _laser;
     delete _gripper;
+    delete _blobfinder;
 
     // Delete navigation
     delete _nav;
@@ -116,11 +114,8 @@ void Player::initialization() {
     // Connect sensors
     _odometer->connect();
     _laser->connect();
-<<<<<<< HEAD
     _gripper->connect();
-=======
     _blobfinder->connect();
->>>>>>> 8ec2a30c91e9386f10349387cf1b76f1164f5591
 
     // Update first time
     update();
@@ -142,11 +137,8 @@ void Player::finalization() {
     // Disconnect sensors
     _odometer->disconnect();
     _laser->disconnect();
-<<<<<<< HEAD
     _gripper->disconnect();
-=======
     _blobfinder->disconnect();
->>>>>>> 8ec2a30c91e9386f10349387cf1b76f1164f5591
 }
 
 bool Player::isAtPosition(const Position &pos) {
