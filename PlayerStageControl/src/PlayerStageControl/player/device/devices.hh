@@ -25,5 +25,6 @@
 
 #include "odometer/odometer.hh"
 #include "laser/laser.hh"
+#include "gripper/gripper.hh"
 
 #endif // DEVICES_HH

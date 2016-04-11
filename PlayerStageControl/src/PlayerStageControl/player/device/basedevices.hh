@@ -26,5 +26,6 @@
 class Device;
 class Odometer;
 class Laser;
+class Gripper;
 
 #endif // BASEDEVICES_HH

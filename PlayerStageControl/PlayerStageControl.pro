@@ -60,9 +60,10 @@ SOURCES += \
     src/PlayerStageControl/utils/vector.cc \
     src/PlayerStageControl/player/device/laser/laser.cc \
     src/PlayerStageControl/player/device/odometer/odometer.cc \
-    src/PlayerStageControl/player/device/basesensors.cc \
     src/PlayerStageControl/player/device/device.cc \
-    src/PlayerStageControl/player/device/sensors.cc
+    src/PlayerStageControl/player/device/gripper/gripper.cc \
+    src/PlayerStageControl/player/device/basedevices.cc \
+    src/PlayerStageControl/player/device/devices.cc
 
 # Header files
 HEADERS += \
@@ -83,7 +84,8 @@ HEADERS += \
     src/PlayerStageControl/player/device/odometer/odometer.hh \
     src/PlayerStageControl/player/device/device.hh \
     src/PlayerStageControl/player/device/devices.hh \
-    src/PlayerStageControl/player/device/basedevices.hh
+    src/PlayerStageControl/player/device/basedevices.hh \
+    src/PlayerStageControl/player/device/gripper/gripper.hh
 
 # Other files
 DISTFILES += \
