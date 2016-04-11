@@ -30,9 +30,10 @@ Player::Player(const char *host, int port) {
     // Create player
     _client = playerc_client_create(NULL, host, port);
 
-    // Create sensors
+    // Create devices
     _odometer = new Odometer(_client);
     _laser = new Laser(_client);
+    _blobfinder = new BlobFinder(_client);
 
     // Create navigation
     _nav = new Navigation(this, _laser);
@@ -103,6 +104,7 @@ void Player::initialization() {
     // Connect sensors
     _odometer->connect();
     _laser->connect();
+    _blobfinder->connect();
 
     // Update first time
     update();
@@ -124,6 +126,7 @@ void Player::finalization() {
     // Disconnect sensors
     _odometer->disconnect();
     _laser->disconnect();
+    _blobfinder->disconnect();
 }
 
 bool Player::isAtPosition(const Position &pos) {

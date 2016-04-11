@@ -77,6 +77,7 @@ private:
     // Sensors
     Odometer *_odometer;
     Laser *_laser;
+    BlobFinder *_blobfinder;
 
     // Errors
     float _lError;

@@ -20,12 +20,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef DEVICES_HH
-#define DEVICES_HH
+#ifndef BLOBFINDER_H
+#define BLOBFINDER_H
 
-#include "odometer/odometer.hh"
-#include "laser/laser.hh"
-#include "gripper/gripper.hh"
-#include "blobfinder/blobfinder.hh"
+#include <PlayerStageControl/player/device/device.hh>
+#include <PlayerStageControl/player/device/blobfinder/blob.hh>
 
-#endif // DEVICES_HH
+class BlobFinder : public Device {
+public:
+    BlobFinder(playerc_client_t *client);
+    ~BlobFinder();
+
+    // Gets
+    Blob getBlob(int index);
+    int getNumBlobs();
+
+    bool connect();
+    bool disconnect();
+private:
+    playerc_blobfinder_t *_blobfinder;
+};
+
+#endif // BLOBFINDER_H
