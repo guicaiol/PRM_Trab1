@@ -23,9 +23,9 @@
 #ifndef LASER_HH
 #define LASER_HH
 
-#include <PlayerStageControl/player/sensor/sensor.hh>
+#include <PlayerStageControl/player/device/device.hh>
 
-class Laser : public Sensor {
+class Laser : public Device {
 public:
     Laser(playerc_client_t *client);
     ~Laser();

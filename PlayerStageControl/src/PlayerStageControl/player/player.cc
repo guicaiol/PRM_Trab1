@@ -24,7 +24,7 @@
 #include <iostream>
 #include <PlayerStageControl/player/behavior/behavior.hh>
 #include <PlayerStageControl/player/navigation/navigation.hh>
-#include <PlayerStageControl/player/sensor/sensors.hh>
+#include <PlayerStageControl/player/device/devices.hh>
 
 Player::Player(const char *host, int port) {
     // Create player

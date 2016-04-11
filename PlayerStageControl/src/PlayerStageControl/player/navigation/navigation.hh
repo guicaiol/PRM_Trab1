@@ -25,7 +25,7 @@
 
 #include <PlayerStageControl/player/navigation/navigationalgorithm/navigationalgorithm.hh>
 #include <PlayerStageControl/player/baseplayer.hh>
-#include <PlayerStageControl/player/sensor/basesensors.hh>
+#include <PlayerStageControl/player/device/basedevices.hh>
 
 class Navigation {
 public:

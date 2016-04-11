@@ -20,11 +20,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef BASESENSORS_HH
-#define BASESENSORS_HH
+#ifndef BASEDEVICES_HH
+#define BASEDEVICES_HH
 
-class Sensor;
+class Device;
 class Odometer;
 class Laser;
 
-#endif // BASESENSORS_HH
+#endif // BASEDEVICES_HH

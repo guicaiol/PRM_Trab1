@@ -20,10 +20,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef SENSORS_HH
-#define SENSORS_HH
+#ifndef DEVICES_HH
+#define DEVICES_HH
 
 #include "odometer/odometer.hh"
 #include "laser/laser.hh"
 
-#endif // SENSORS_HH
+#endif // DEVICES_HH

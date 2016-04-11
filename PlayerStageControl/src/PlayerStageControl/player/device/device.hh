@@ -20,19 +20,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef SENSOR_HH
-#define SENSOR_HH
+#ifndef DEVICE_HH
+#define DEVICE_HH
 
 #include <libplayerc/playerc.h>
 #include <PlayerStageControl/player/baseplayer.hh>
 
-class Sensor {
+class Device {
 public:
-    Sensor();
-    virtual ~Sensor();
+    Device();
+    virtual ~Device();
 
     virtual bool connect() = 0;
     virtual bool disconnect() = 0;
 };
 
-#endif // SENSOR_HH
+#endif // DEVICE_HH

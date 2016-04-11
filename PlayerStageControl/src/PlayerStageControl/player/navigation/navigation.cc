@@ -22,7 +22,7 @@
 
 #include "navigation.hh"
 #include <PlayerStageControl/player/player.hh>
-#include <PlayerStageControl/player/sensor/laser/laser.hh>
+#include <PlayerStageControl/player/device/laser/laser.hh>
 #include <PlayerStageControl/player/navigation/navigationalgorithm/PF/pf.hh>
 
 Navigation::Navigation(Player *player, Laser *laser) {

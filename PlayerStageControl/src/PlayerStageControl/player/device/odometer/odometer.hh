@@ -23,9 +23,9 @@
 #ifndef ODOMETER_HH
 #define ODOMETER_HH
 
-#include <PlayerStageControl/player/sensor/sensor.hh>
+#include <PlayerStageControl/player/device/device.hh>
 
-class Odometer : public Sensor {
+class Odometer : public Device {
 public:
     Odometer(playerc_client_t *client);
     ~Odometer();

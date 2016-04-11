@@ -25,7 +25,7 @@
 
 #include <libplayerc/playerc.h>
 #include <PlayerStageControl/player/baseplayer.hh>
-#include <PlayerStageControl/player/sensor/basesensors.hh>
+#include <PlayerStageControl/player/device/basedevices.hh>
 #include <PlayerStageControl/utils/thread/thread.hh>
 
 class Player : public Thread {

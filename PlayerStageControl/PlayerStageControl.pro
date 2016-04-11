@@ -57,12 +57,12 @@ SOURCES += \
     src/PlayerStageControl/player/navigation/navigationalgorithm/PF/pf.cc \
     src/PlayerStageControl/player/navigation/navigationalgorithm/navigationalgorithm.cc \
     src/PlayerStageControl/player/navigation/navigation.cc \
-    src/PlayerStageControl/player/sensor/laser/laser.cc \
-    src/PlayerStageControl/player/sensor/odometer/odometer.cc \
-    src/PlayerStageControl/player/sensor/sensor.cc \
-    src/PlayerStageControl/player/sensor/sensors.cc \
-    src/PlayerStageControl/player/sensor/basesensors.cc \
-    src/PlayerStageControl/utils/vector.cc
+    src/PlayerStageControl/utils/vector.cc \
+    src/PlayerStageControl/player/device/laser/laser.cc \
+    src/PlayerStageControl/player/device/odometer/odometer.cc \
+    src/PlayerStageControl/player/device/basesensors.cc \
+    src/PlayerStageControl/player/device/device.cc \
+    src/PlayerStageControl/player/device/sensors.cc
 
 # Header files
 HEADERS += \
@@ -78,12 +78,12 @@ HEADERS += \
     src/PlayerStageControl/player/navigation/navigationalgorithm/PF/pf.hh \
     src/PlayerStageControl/player/navigation/navigationalgorithm/navigationalgorithm.hh \
     src/PlayerStageControl/player/navigation/navigation.hh \
-    src/PlayerStageControl/player/sensor/laser/laser.hh \
-    src/PlayerStageControl/player/sensor/odometer/odometer.hh \
-    src/PlayerStageControl/player/sensor/sensor.hh \
-    src/PlayerStageControl/player/sensor/sensors.hh \
-    src/PlayerStageControl/player/sensor/basesensors.hh \
-    src/PlayerStageControl/utils/vector.hh
+    src/PlayerStageControl/utils/vector.hh \
+    src/PlayerStageControl/player/device/laser/laser.hh \
+    src/PlayerStageControl/player/device/odometer/odometer.hh \
+    src/PlayerStageControl/player/device/device.hh \
+    src/PlayerStageControl/player/device/devices.hh \
+    src/PlayerStageControl/player/device/basedevices.hh
 
 # Other files
 DISTFILES += \
