@@ -97,14 +97,18 @@ void Behavior_PlayerGripper::state_search() {
 }
 
 void Behavior_PlayerGripper::state_goTo() {
-    // Switch state condition: STATE_SEARCH
-    if(player()->blobFinder()->getNumBlobs() == 0) {
+
+    // Go to nearest blob
+    Blob nearestBlob;
+    bool hasBlobs = getNearestBlob(&nearestBlob);
+    if(hasBlobs==false) {
         _state = STATE_SEARCH;
         return;
     }
 
-    bool hasBlob = player()->goToBlob(getNearestBlob(), false);
-    if(hasBlob)
+    // Go to nearest blob
+    bool goToBlob = player()->goToBlob(nearestBlob);
+    if(goToBlob)
         _state = STATE_CATCH;
 }
 
@@ -142,8 +146,8 @@ void Behavior_PlayerGripper::state_drop() {
 
 void Behavior_PlayerGripper::state_getaway() {
     // Get away
-    player()->setSpeed(-1, 0.0, 0.0);
-    Thread::msleep(400);
+    player()->setSpeed(-player()->maxLSpeed(), 0.0, 0.0);
+    Thread::msleep(250);
 
     player()->setSpeed(0.0, 0.0, 2*Utils::pi());
     Thread::msleep(500);
@@ -154,8 +158,7 @@ void Behavior_PlayerGripper::state_getaway() {
     _state = STATE_SEARCH;
 }
 
-Blob Behavior_PlayerGripper::getNearestBlob() {
-    Blob nearestBlob;
+bool Behavior_PlayerGripper::getNearestBlob(Blob *nearestBlob) {
     bool hasNearestBlob = false;
 
     int numBlobs = player()->blobFinder()->getNumBlobs();
@@ -169,10 +172,10 @@ Blob Behavior_PlayerGripper::getNearestBlob() {
             if(blob.getColor()==Colors::GREEN) {
 
                 if(hasNearestBlob) {
-                    if(blob.getRange() < nearestBlob.getRange())
-                        nearestBlob = blob;
+                    if(blob.getRange() < nearestBlob->getRange())
+                        *nearestBlob = blob;
                 } else {
-                    nearestBlob = blob;
+                    *nearestBlob = blob;
                     hasNearestBlob = true;
                 }
 
@@ -180,5 +183,5 @@ Blob Behavior_PlayerGripper::getNearestBlob() {
         }
     }
 
-    return nearestBlob;
+    return hasNearestBlob;
 }

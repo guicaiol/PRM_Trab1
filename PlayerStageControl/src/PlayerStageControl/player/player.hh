@@ -52,6 +52,10 @@ public:
     bool isAtPosition(const Position &pos);
     bool isLookingTo(const Position &pos);
 
+    // Max speeds
+    float maxLSpeed() const { return _maxLSpeed; }
+    float maxASpeed() const { return _maxASpeed; }
+
     // Behavior
     void setBehavior(Behavior *behavior);
 
@@ -61,7 +65,7 @@ public:
     void lookTo(const Position &position, bool avoidObstacles);
     void idle();
 
-    bool goToBlob(const Blob &blob, bool avoidObstacles);
+    bool goToBlob(const Blob &blob);
 
     // Locomotion layer 0
     void setSpeed(float x, float y, float theta);

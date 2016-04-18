@@ -197,14 +197,14 @@ void Player::idle() {
     setSpeed(0.0, 0.0, 0.0);
 }
 
-bool Player::goToBlob(const Blob &blob, bool avoidObstacles) {
+bool Player::goToBlob(const Blob &blob) {
     /// TODO: implement avoidObstacles!
 
     // Calc dist error
     float distError = blob.getRange();
 
     // setSpeed
-    if(blob.getRange() > 0.35) {
+    if(blob.getRange() > 0.32) {
         float speedX = getLinearSpeed(distError);
         float speedA = 0.03*(40 - blob.getCentroid().x());
 
