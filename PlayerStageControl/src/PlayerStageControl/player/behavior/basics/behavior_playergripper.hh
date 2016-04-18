@@ -45,7 +45,7 @@ private:
     void state_getaway();
 
     // Internal
-    Blob getNearestBlob();
+    bool getNearestBlob(Blob *nearestBlob);
 };
 
 #endif // BEHAVIOR_TEST_HH
