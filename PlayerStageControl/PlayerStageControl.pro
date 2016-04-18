@@ -67,7 +67,7 @@ SOURCES += \
     src/PlayerStageControl/player/device/blobfinder/blobfinder.cc \
     src/PlayerStageControl/player/device/blobfinder/blob.cc \
     src/PlayerStageControl/utils/color/color.cc \
-    src/PlayerStageControl/player/behavior/basics/behavior_test.cc
+    src/PlayerStageControl/player/behavior/basics/behavior_playergripper.cc
 
 # Header files
 HEADERS += \
@@ -93,7 +93,7 @@ HEADERS += \
     src/PlayerStageControl/player/device/blobfinder/blobfinder.hh \
     src/PlayerStageControl/player/device/blobfinder/blob.hh \
     src/PlayerStageControl/utils/color/color.hh \
-    src/PlayerStageControl/player/behavior/basics/behavior_test.hh
+    src/PlayerStageControl/player/behavior/basics/behavior_playergripper.hh
 
 # Other files
 DISTFILES += \

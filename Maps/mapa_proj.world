@@ -42,7 +42,7 @@ pioneer2dx
   sicklaser()
  
   localization "gps"
-  localization_origin [ 13 1 0 180 ]
+  localization_origin [ 13 0 0 180 ]
   blobfinder ()
 
   gripper (
@@ -78,7 +78,7 @@ pioneer2dx
   sicklaser()
  
  localization "gps"
-  localization_origin [ 13 -1 0 180 ]
+  localization_origin [ 13 0 0 180 ]
    blobfinder ()
 
 )
@@ -91,7 +91,7 @@ pioneer2dx
   sicklaser()
  
  localization "gps"
-  localization_origin [ -13 -1 0 0 ]
+  localization_origin [ -13 0 0 0 ]
    blobfinder ()
 
   color "blue"
@@ -132,7 +132,7 @@ pioneer2dx
   sicklaser()
  
  localization "gps"
-  localization_origin [ -13 1 0 0 ]
+  localization_origin [ -13 0 0 0 ]
    blobfinder ()
 
   color "blue"

@@ -26,19 +26,23 @@
 #include <PlayerStageControl/player/behavior/behavior.hh>
 #include <PlayerStageControl/player/device/blobfinder/blob.hh>
 
-class Behavior_Test : public Behavior {
+class Behavior_PlayerGripper : public Behavior {
 public:
-    Behavior_Test();
+    Behavior_PlayerGripper();
 private:
     void run();
 
     // State machine
     int _state;
-    enum {STATE_SEARCH, STATE_GOTO, STATE_CATCH, STATE_RETRIEVE, STATE_DROP};
+    enum {STATE_SEARCH, STATE_GOTO, STATE_CATCH, STATE_RETRIEVE, STATE_DROP, STATE_GETAWAY};
 
     // States
-    void search();
-    void goTo();
+    void state_search();
+    void state_goTo();
+    void state_catch();
+    void state_retrieve();
+    void state_drop();
+    void state_getaway();
 
     // Internal
     Blob getNearestBlob();

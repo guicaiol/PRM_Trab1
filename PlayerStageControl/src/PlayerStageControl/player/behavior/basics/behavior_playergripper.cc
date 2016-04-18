@@ -20,26 +20,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "behavior_test.hh"
+#include "behavior_playergripper.hh"
 #include <PlayerStageControl/player/player.hh>
 #include <PlayerStageControl/player/device/devices.hh>
 
-Behavior_Test::Behavior_Test() {
+Behavior_PlayerGripper::Behavior_PlayerGripper() {
     _state = STATE_SEARCH;
 }
 
-void Behavior_Test::run() {
+void Behavior_PlayerGripper::run() {
 
     // Switch state machine
     switch(_state) {
         case STATE_SEARCH: {
             std::cout << "search!\n";
-            search();
+            state_search();
         } break;
 
         case STATE_GOTO: {
             std::cout << "goTo!\n";
-            goTo();
+            state_goTo();
+        } break;
+
+        case STATE_CATCH: {
+            std::cout << "catch!\n";
+            state_catch();
+        } break;
+
+        case STATE_RETRIEVE: {
+            std::cout << "retrieve!\n";
+            state_retrieve();
+        } break;
+
+        case STATE_DROP: {
+            std::cout << "drop!\n";
+            state_drop();
+        } break;
+
+        case STATE_GETAWAY: {
+            std::cout << "getAway!\n";
+            state_getaway();
         } break;
 
         default:
@@ -49,8 +69,12 @@ void Behavior_Test::run() {
 
 }
 
-void Behavior_Test::search() {
+void Behavior_PlayerGripper::state_search() {
+    // Open gripper
+    player()->gripper()->open();
+
     // Search algorithm (generate points)
+    /// TODO: implement search algorithm!
     Position destination = Position(26, 3);
     player()->goTo(destination, true);
 
@@ -70,14 +94,67 @@ void Behavior_Test::search() {
 
 }
 
-void Behavior_Test::goTo() {
-    player()->goToBlob(getNearestBlob(), false);
+void Behavior_PlayerGripper::state_goTo() {
+    // Switch state condition: STATE_SEARCH
+    if(player()->blobFinder()->getNumBlobs() == 0) {
+        _state = STATE_SEARCH;
+        return;
+    }
+
+    bool hasBlob = player()->goToBlob(getNearestBlob(), false);
+    if(hasBlob)
+        _state = STATE_CATCH;
 }
 
-Blob Behavior_Test::getNearestBlob() {
+void Behavior_PlayerGripper::state_catch() {
+    // Close gripper
+    player()->idle();
+    player()->gripper()->close();
+
+    // Switch state condition
+    if(player()->gripper()->state()==Gripper::CLOSED)
+        _state = STATE_RETRIEVE;
+}
+
+void Behavior_PlayerGripper::state_retrieve() {
+    Position origin(-2.0, 0.0);
+
+    // GoTo origin
+    player()->goTo(origin, true);
+    if(player()->position().x() <= 0.0 && fabs(player()->position().y()) <= 2.70) {
+        player()->idle();
+        _state = STATE_DROP;
+    }
+}
+
+void Behavior_PlayerGripper::state_drop() {
+    // Open gripper
+    player()->idle();
+    player()->gripper()->open();
+
+    // Switch state condition
+    if(player()->gripper()->state()==Gripper::OPEN)
+        _state = STATE_GETAWAY;
+
+}
+
+void Behavior_PlayerGripper::state_getaway() {
+    // Get away
+    player()->setSpeed(-1, 0.0, 0.0);
+    Thread::msleep(400);
+
+    player()->setSpeed(0.0, 0.0, 2*Utils::pi());
+    Thread::msleep(500);
+
+    player()->idle();
+    Thread::msleep(100);
+
+    _state = STATE_SEARCH;
+}
+
+Blob Behavior_PlayerGripper::getNearestBlob() {
     Blob nearestBlob;
     bool hasNearestBlob = false;
-
 
     int numBlobs = player()->blobFinder()->getNumBlobs();
     if(numBlobs > 0) {

@@ -59,7 +59,7 @@ public:
     void lookTo(const Position &position, bool avoidObstacles);
     void idle();
 
-    void goToBlob(const Blob &blob, bool avoidObstacles);
+    bool goToBlob(const Blob &blob, bool avoidObstacles);
 
     // Locomotion layer 0
     void setSpeed(float x, float y, float theta);

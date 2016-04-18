@@ -46,7 +46,7 @@ void Thread::run() {
     while(_running) {
         if(_enabled)
             loop();
-        msleep(15);
+//        msleep(15);
     }
     finalization();
 }

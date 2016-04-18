@@ -27,13 +27,13 @@
 #include <PlayerStageControl/player/behavior/behaviors.hh>
 #include "exithandler.hh"
 
-int main(int argc, const char **argv) {
+int main() {
 
     // Setup ExitHandler
     ExitHandler::setup();
 
     // Create player
-    Player player("localhost", 6675);
+    Player player("localhost", 6676);
 
     // Connect
     if(player.connect()==false) {
@@ -42,7 +42,7 @@ int main(int argc, const char **argv) {
     }
 
     // Create behavior
-    Behavior_Test *bh_test = new Behavior_Test();
+    Behavior_PlayerGripper *bh_test = new Behavior_PlayerGripper();
 
     // Run
     player.setBehavior(bh_test);

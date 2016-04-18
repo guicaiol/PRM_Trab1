@@ -25,6 +25,8 @@
 #include <PlayerStageControl/player/device/laser/laser.hh>
 #include <PlayerStageControl/player/navigation/navigationalgorithm/PF/pf.hh>
 
+#define PF_MIN_DISTANCE 3.0
+
 Navigation::Navigation(Player *player, Laser *laser) {
     _player = player;
     _laser = laser;
@@ -52,14 +54,13 @@ float Navigation::getDirection(const Position &destination, bool avoidObstacles)
             float range = _laser->getRange(i);
             float angle = _laser->getBearing(i);
 
-            if(range > 5.0)
+            // Min range to consider the obstacle
+            if(range > PF_MIN_DISTANCE)
                 continue;
 
+            // Add obstacle
             float globalAngle = _player->orientation() + angle;
             Position obstacle(_player->position().x() + range*cos(globalAngle), _player->position().y() + range*sin(globalAngle));
-
-//            std::cout << "adding beam, range=" << range << ", angle=" << Utils::toDegree(angle) << ", globalAngle=" << Utils::toDegree(globalAngle) << ", pos: x=" << obstacle.x() << ", y= " << obstacle.y() << "\n";
-
             _navAlg->addObstacle(obstacle);
         }
 

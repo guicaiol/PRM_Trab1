@@ -41,10 +41,10 @@ Player::Player(const char *host, int port) {
 
     // Initialization
     _behavior = NULL;
-    _lError = 0.10;
+    _lError = 0.25;
     _aError = Utils::toRadians(5);
     _maxLSpeed = 1.2;
-    _maxASpeed = Utils::toRadians(100);
+    _maxASpeed = Utils::toRadians(250);
 }
 
 Player::~Player() {
@@ -84,7 +84,7 @@ void Player::printError() {
 }
 
 float Player::getLinearSpeed(float distError) {
-    float kp = 0.4;
+    float kp = 0.35;
     float speed = kp*distError;
 
     float signal = speed/fabs(speed);
@@ -195,24 +195,25 @@ void Player::idle() {
     setSpeed(0.0, 0.0, 0.0);
 }
 
-void Player::goToBlob(const Blob &blob, bool avoidObstacles) {
+bool Player::goToBlob(const Blob &blob, bool avoidObstacles) {
+    /// TODO: implement avoidObstacles!
+
     // Calc dist error
     float distError = blob.getRange();
 
-    std::cout << "distError: " << blob.getRange() << "\n";
-
     // setSpeed
-    if(blob.getRange() > 0.5) {
+    if(blob.getRange() > 0.35) {
         float speedX = getLinearSpeed(distError);
         float speedA = 0.03*(40 - blob.getCentroid().x());
-
-        std::cout << "speedX: " << speedX << "\n";
 
         setSpeed(speedX, 0.0, speedA);
 
     } else {
         idle();
+        return true;
     }
+
+    return false;
 }
 
 void Player::setSpeed(float x, float y, float theta) {
