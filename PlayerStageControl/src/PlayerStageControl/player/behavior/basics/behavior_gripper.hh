@@ -20,39 +20,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef PF_HH
-#define PH_HH
+#ifndef BEHAVIOR_TEST_HH
+#define BEHAVIOR_TEST_HH
 
-#include <PlayerStageControl/player/navigation/navigationalgorithm/navigationalgorithm.hh>
-#include <PlayerStageControl/utils/vector/vector.hh>
+#include <PlayerStageControl/player/behavior/behavior.hh>
+#include <PlayerStageControl/player/device/blobfinder/blob.hh>
 
-class PF : public NavigationAlgorithm {
+class Behavior_Gripper : public Behavior {
 public:
-    PF();
-
-    void reset();
-    void setOrigin(const Position &origin);
-    void setGoal(const Position &goa);
-    void addObstacle(const Position &obst);
-    float getDirection();
+    Behavior_Gripper();
 private:
-    // Forces
-    void addRepulsive(const Vector &v, float k);
-    void addAttractive(const Vector &v);
-    void addForce(const Vector &v);
+    void run();
 
-    // Distance function
-    Vector applyDistanceFunction(Vector v, float k);
+    // State machine
+    int _state;
+    enum {STATE_SEARCH, STATE_GOTO, STATE_CATCH, STATE_RETRIEVE, STATE_DROP, STATE_GETAWAY};
 
-    // Auxiliary functions
-    static Vector getVector(const Position &v1, const Position &v2);
+    // States
+    void state_search();
+    void state_goTo();
+    void state_catch();
+    void state_retrieve();
+    void state_drop();
+    void state_getaway();
 
-    // Goal and origin
-    Position _origin;
-    Position _goal;
-
-    // Resultant force
-    Vector _resultantForce;
+    // Internal
+    bool getNearestBlob(Blob *nearestBlob);
 };
 
-#endif // PH_HH
+#endif // BEHAVIOR_TEST_HH

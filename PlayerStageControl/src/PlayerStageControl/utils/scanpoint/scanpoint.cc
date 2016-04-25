@@ -20,39 +20,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef PF_HH
-#define PH_HH
+#include "scanpoint.hh"
 
-#include <PlayerStageControl/player/navigation/navigationalgorithm/navigationalgorithm.hh>
-#include <PlayerStageControl/utils/vector/vector.hh>
+ScanPoint::ScanPoint(const Position &pos, float scanStart, float scanStop) {
+    _position = pos;
+    _scanStart = scanStart;
+    _scanStop = scanStop;
+}
 
-class PF : public NavigationAlgorithm {
-public:
-    PF();
+Position ScanPoint::getPosition() const {
+    return _position;
+}
 
-    void reset();
-    void setOrigin(const Position &origin);
-    void setGoal(const Position &goa);
-    void addObstacle(const Position &obst);
-    float getDirection();
-private:
-    // Forces
-    void addRepulsive(const Vector &v, float k);
-    void addAttractive(const Vector &v);
-    void addForce(const Vector &v);
+float ScanPoint::getScanStart() const {
+    return _scanStart;
+}
 
-    // Distance function
-    Vector applyDistanceFunction(Vector v, float k);
-
-    // Auxiliary functions
-    static Vector getVector(const Position &v1, const Position &v2);
-
-    // Goal and origin
-    Position _origin;
-    Position _goal;
-
-    // Resultant force
-    Vector _resultantForce;
-};
-
-#endif // PH_HH
+float ScanPoint::getScanStop() const {
+    return _scanStop;
+}

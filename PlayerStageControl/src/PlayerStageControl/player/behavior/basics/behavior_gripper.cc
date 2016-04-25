@@ -20,45 +20,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "behavior_playergripper.hh"
+#include "behavior_gripper.hh"
 #include <PlayerStageControl/player/player.hh>
 #include <PlayerStageControl/player/device/devices.hh>
 
-Behavior_PlayerGripper::Behavior_PlayerGripper() {
+Behavior_Gripper::Behavior_Gripper() {
     _state = STATE_SEARCH;
 }
 
-void Behavior_PlayerGripper::run() {
+void Behavior_Gripper::run() {
 
     // Switch state machine
     switch(_state) {
         case STATE_SEARCH: {
-            std::cout << "search!\n";
             state_search();
         } break;
 
         case STATE_GOTO: {
-            std::cout << "goTo!\n";
             state_goTo();
         } break;
 
         case STATE_CATCH: {
-            std::cout << "catch!\n";
             state_catch();
         } break;
 
         case STATE_RETRIEVE: {
-            std::cout << "retrieve!\n";
             state_retrieve();
         } break;
 
         case STATE_DROP: {
-            std::cout << "drop!\n";
             state_drop();
         } break;
 
         case STATE_GETAWAY: {
-            std::cout << "getAway!\n";
             state_getaway();
         } break;
 
@@ -69,7 +63,7 @@ void Behavior_PlayerGripper::run() {
 
 }
 
-void Behavior_PlayerGripper::state_search() {
+void Behavior_Gripper::state_search() {
     // Open gripper
     player()->gripper()->open();
 
@@ -94,7 +88,7 @@ void Behavior_PlayerGripper::state_search() {
 
 }
 
-void Behavior_PlayerGripper::state_goTo() {
+void Behavior_Gripper::state_goTo() {
 
     // Go to nearest blob
     Blob nearestBlob;
@@ -110,7 +104,7 @@ void Behavior_PlayerGripper::state_goTo() {
         _state = STATE_CATCH;
 }
 
-void Behavior_PlayerGripper::state_catch() {
+void Behavior_Gripper::state_catch() {
     // Close gripper
     player()->idle();
     player()->gripper()->close();
@@ -120,7 +114,7 @@ void Behavior_PlayerGripper::state_catch() {
         _state = STATE_RETRIEVE;
 }
 
-void Behavior_PlayerGripper::state_retrieve() {
+void Behavior_Gripper::state_retrieve() {
     Position origin(-2.0, 0.0);
 
     // GoTo origin
@@ -131,7 +125,7 @@ void Behavior_PlayerGripper::state_retrieve() {
     }
 }
 
-void Behavior_PlayerGripper::state_drop() {
+void Behavior_Gripper::state_drop() {
     // Open gripper
     player()->idle();
     player()->gripper()->open();
@@ -142,7 +136,7 @@ void Behavior_PlayerGripper::state_drop() {
 
 }
 
-void Behavior_PlayerGripper::state_getaway() {
+void Behavior_Gripper::state_getaway() {
     // Get away
     player()->setSpeed(-player()->maxLSpeed(), 0.0, 0.0);
     Thread::msleep(250);
@@ -156,7 +150,7 @@ void Behavior_PlayerGripper::state_getaway() {
     _state = STATE_SEARCH;
 }
 
-bool Behavior_PlayerGripper::getNearestBlob(Blob *nearestBlob) {
+bool Behavior_Gripper::getNearestBlob(Blob *nearestBlob) {
     bool hasNearestBlob = false;
 
     int numBlobs = player()->blobFinder()->getNumBlobs();

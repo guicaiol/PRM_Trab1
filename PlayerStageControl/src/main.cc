@@ -32,34 +32,60 @@ int main() {
     // Setup ExitHandler
     ExitHandler::setup();
 
-    // Create player
-    Player player("localhost", 6676);
-
-    // Connect
-    if(player.connect()==false) {
-        player.printError();
+    // Create player 1 (with gripper)
+    Player player1("localhost", 6675);
+    if(player1.connect()==false) {
+        player1.printError();
         return EXIT_FAILURE;
     }
 
-    // Create behavior
-    Behavior_PlayerGripper *bh_test = new Behavior_PlayerGripper();
+    // Create player 2 (with gripper)
+    Player player2("localhost", 6676);
+    if(player2.connect()==false) {
+        player2.printError();
+        return EXIT_FAILURE;
+    }
 
-    // Run
-    player.setBehavior(bh_test);
-    player.start();
+    // Create player 3 (without gripper)
+//    Player player3("localhost", 6677);
+//    if(player3.connect()==false) {
+//        player3.printError();
+//        return EXIT_FAILURE;
+//    }
+
+    // Create behaviors
+    Behavior_Gripper *bh_gripper1 = new Behavior_Gripper();
+    Behavior_Gripper *bh_gripper2 = new Behavior_Gripper();
+//    Behavior_NoGripper *bh_noGripper = new Behavior_NoGripper();
+
+    // Set behaviors
+    player1.setBehavior(bh_gripper1);
+//    player2.setBehavior(bh_gripper2);
+//    player3.setBehavior(bh_noGripper);
+
+    // Start players
+    player1.start();
+//    player2.start();
+//    player3.start();
 
     // Wait for exit
     ExitHandler::wait();
 
     // Stop
-    player.stop();
-    player.wait();
+    player1.stop();
+    player2.stop();
+//    player3.stop();
+    player1.wait();
+//    player2.wait();
+//    player3.wait();
 
     // Delete behavior
-    delete bh_test;
+    delete bh_gripper1;
+    delete bh_gripper2;
+//    delete bh_noGripper;
 
     // Disconnect
-    player.disconnect();
+    player1.disconnect();
 
     return EXIT_SUCCESS;
 }

@@ -26,8 +26,11 @@
 #include <math.h>
 
 // Include utils classes
+#include "color/color.hh"
 #include "position/position.hh"
 #include "thread/thread.hh"
+#include "vector/vector.hh"
+#include "scanpoint/scanpoint.hh"
 
 class Utils {
 public:

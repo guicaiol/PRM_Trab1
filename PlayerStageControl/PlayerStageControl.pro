@@ -57,7 +57,6 @@ SOURCES += \
     src/PlayerStageControl/player/navigation/navigationalgorithm/PF/pf.cc \
     src/PlayerStageControl/player/navigation/navigationalgorithm/navigationalgorithm.cc \
     src/PlayerStageControl/player/navigation/navigation.cc \
-    src/PlayerStageControl/utils/vector.cc \
     src/PlayerStageControl/player/device/laser/laser.cc \
     src/PlayerStageControl/player/device/odometer/odometer.cc \
     src/PlayerStageControl/player/device/device.cc \
@@ -67,7 +66,9 @@ SOURCES += \
     src/PlayerStageControl/player/device/blobfinder/blobfinder.cc \
     src/PlayerStageControl/player/device/blobfinder/blob.cc \
     src/PlayerStageControl/utils/color/color.cc \
-    src/PlayerStageControl/player/behavior/basics/behavior_playergripper.cc
+    src/PlayerStageControl/utils/vector/vector.cc \
+    src/PlayerStageControl/utils/scanpoint/scanpoint.cc \
+    src/PlayerStageControl/player/behavior/basics/behavior_gripper.cc
 
 # Header files
 HEADERS += \
@@ -83,7 +84,6 @@ HEADERS += \
     src/PlayerStageControl/player/navigation/navigationalgorithm/PF/pf.hh \
     src/PlayerStageControl/player/navigation/navigationalgorithm/navigationalgorithm.hh \
     src/PlayerStageControl/player/navigation/navigation.hh \
-    src/PlayerStageControl/utils/vector.hh \
     src/PlayerStageControl/player/device/laser/laser.hh \
     src/PlayerStageControl/player/device/odometer/odometer.hh \
     src/PlayerStageControl/player/device/device.hh \
@@ -93,7 +93,9 @@ HEADERS += \
     src/PlayerStageControl/player/device/blobfinder/blobfinder.hh \
     src/PlayerStageControl/player/device/blobfinder/blob.hh \
     src/PlayerStageControl/utils/color/color.hh \
-    src/PlayerStageControl/player/behavior/basics/behavior_playergripper.hh
+    src/PlayerStageControl/utils/vector/vector.hh \
+    src/PlayerStageControl/utils/scanpoint/scanpoint.hh \
+    src/PlayerStageControl/player/behavior/basics/behavior_gripper.hh
 
 # Other files
 DISTFILES += \

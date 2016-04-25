@@ -20,32 +20,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef BEHAVIOR_TEST_HH
-#define BEHAVIOR_TEST_HH
+#ifndef SCANPOINT_HH
+#define SCANPOINT_HH
 
-#include <PlayerStageControl/player/behavior/behavior.hh>
-#include <PlayerStageControl/player/device/blobfinder/blob.hh>
+#include <PlayerStageControl/utils/position/position.hh>
 
-class Behavior_PlayerGripper : public Behavior {
+class ScanPoint {
 public:
-    Behavior_PlayerGripper();
+    ScanPoint(const Position &pos, float scanStart, float scanStop);
+
+    Position getPosition() const;
+    float getScanStart() const;
+    float getScanStop() const;
 private:
-    void run();
-
-    // State machine
-    int _state;
-    enum {STATE_SEARCH, STATE_GOTO, STATE_CATCH, STATE_RETRIEVE, STATE_DROP, STATE_GETAWAY};
-
-    // States
-    void state_search();
-    void state_goTo();
-    void state_catch();
-    void state_retrieve();
-    void state_drop();
-    void state_getaway();
-
-    // Internal
-    bool getNearestBlob(Blob *nearestBlob);
+    Position _position;
+    float _scanStart;
+    float _scanStop;
 };
 
-#endif // BEHAVIOR_TEST_HH
+#endif // SCANPOINT_HH
