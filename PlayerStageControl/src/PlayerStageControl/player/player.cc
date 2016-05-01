@@ -127,6 +127,12 @@ void Player::loop() {
     // Update data
     this->update();
 
+    // Checks stall
+    if(_odometer->isStall()) {
+        setSpeed(-maxLSpeed(), 0.0, 0.0);
+        Thread::msleep(500);
+    }
+
     // Run behavior
     if(_behavior!=NULL)
         _behavior->run();
