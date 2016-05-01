@@ -1,4 +1,4 @@
-/***
+﻿/***
  * SCC0712 - Programação de Robôs Móveis
  * Universidade de São Paulo (USP) - São Carlos
  * Instituto de Ciências Matemáticas e de Computação (ICMC)
@@ -71,6 +71,8 @@ private:
     Position _currObj;
 
     bool getNearestBlob(Blob *nearestBlob);
+    Position getTransitionPos(Position pos);
+    bool isInRoom(Position pos);
 };
 
 #endif // BEHAVIOR_GETOBJECTS_HH

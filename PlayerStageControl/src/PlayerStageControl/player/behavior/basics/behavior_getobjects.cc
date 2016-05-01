@@ -1,4 +1,4 @@
-/***
+﻿/***
  * SCC0712 - Programação de Robôs Móveis
  * Universidade de São Paulo (USP) - São Carlos
  * Instituto de Ciências Matemáticas e de Computação (ICMC)
@@ -110,11 +110,19 @@ void Behavior_GetObjects::state_goTo() {
     // Get position
     Position desiredPosition = _points.at(_currScanIndex);
 
+    Position posToGo = desiredPosition;
+    if(isInRoom(desiredPosition)) {
+        posToGo = getTransitionPos(desiredPosition);
+    }
+    if(Utils::distance(player()->position(), posToGo) < 1.0 || isInRoom(player()->position())) {
+        posToGo = desiredPosition;
+    }
+
     // Go to
-    player()->goTo(desiredPosition, true);
+    player()->goTo(posToGo, true);
 
     // Check at position
-    if(player()->isAtPosition(desiredPosition)) {
+    if(player()->isAtPosition(posToGo)) {
         const float scanStart = _scans.at(_currScanIndex).first;
 
         // Check at scan start
@@ -209,15 +217,24 @@ void Behavior_GetObjects::state_scan() {
 }
 
 void Behavior_GetObjects::state_get_goTo() {
+
+    Position posToGo = _currObj;
+    if(isInRoom(_currObj)) {
+        posToGo = getTransitionPos(_currObj);
+    }
+    if(Utils::distance(player()->position(), posToGo) < 1.0 || isInRoom(player()->position())) {
+        posToGo = _currObj;
+    }
+
     // Go to blob position
-    player()->goTo(_currObj, true);
+    player()->goTo(posToGo, true);
 
     // Check if it's seeing the blob
-    if(Utils::distance(player()->position(), _currObj) < 2.0) {
+    if(Utils::distance(player()->position(), posToGo) < 2.0) {
 
-        if(Utils::distance(player()->position(), _currObj) < 0.6) {
+//        if(Utils::distance(player()->position(), posToGo) < 2.6) {
             player()->setCheckStall(false);
-        }
+//        }
 
         Blob nearestBlob;
         bool hasNearestBlob = getNearestBlob(&nearestBlob);
@@ -228,7 +245,7 @@ void Behavior_GetObjects::state_get_goTo() {
                 _state2 = STATE_GET_CATCH;
         } else {
             // Check if was a false alarm (no blob)
-            if(player()->isAtPosition(_currObj)) {
+            if(player()->isAtPosition(posToGo)) {
                 _hasCurrObject = false;
                 _state2 = STATE_GET_GOTO;
             }
@@ -252,10 +269,13 @@ void Behavior_GetObjects::state_get_catch() {
 void Behavior_GetObjects::state_get_retrieve() {
     player()->setCheckStall(true);
 
-    Position origin(-2.0, 0.0);
+    Position posToGo = Position(-2.0, 0.0);
+    if(isInRoom(player()->position())) {
+        posToGo = getTransitionPos(player()->position());
+    }
 
     // GoTo origin
-    player()->goTo(origin, true);
+    player()->goTo(posToGo, true);
     if(player()->position().x() <= 0.0 && fabs(player()->position().y()) <= 2.70) {
         player()->idle();
         _state2 = STATE_GET_DROP;
@@ -314,3 +334,34 @@ bool Behavior_GetObjects::getNearestBlob(Blob *nearestBlob) {
 
     return hasNearestBlob;
 }
+
+Position Behavior_GetObjects::getTransitionPos(Position pos) {
+    Position posToGo;
+    if(pos.x() <= 7.5 && pos.y() >= 3.0){
+        posToGo = Position(7.5,3.0);
+    }else if(pos.x() <= 7.0 && pos.y() <= -2.0){
+        posToGo = Position(3.5,-1.5);;
+    }else if(pos.x() >= 19.0 && pos.y() >= 2.0){
+        posToGo = Position(22.5,1.5);
+    }else if(pos.x() >= 18.5 && pos.y() <= -3.0){
+        posToGo = Position(20.5,-3.0);
+    } else{
+        posToGo = pos;
+    }
+    return posToGo;
+}
+
+bool Behavior_GetObjects::isInRoom(Position pos) {
+    bool inRoom = false;
+    if(pos.x() <= 7.5 && pos.y() >= 3.0){
+        inRoom = true;
+    }else if(pos.x() <= 7.0 && pos.y() <= -2.0){
+        inRoom = true;
+    }else if(pos.x() >= 19.0 && pos.y() >= 2.0){
+        inRoom = true;
+    }else if(pos.x() >= 18.5 && pos.y() <= -3.0){
+        inRoom = true;
+    }
+    return inRoom;
+}
+
