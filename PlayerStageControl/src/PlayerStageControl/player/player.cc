@@ -43,10 +43,11 @@ Player::Player(const char *host, int port) {
 
     // Initialization
     _behavior = NULL;
-    _lError = 0.25;
-    _aError = Utils::toRadians(5);
+    _lError = 0.20;
+    _aError = Utils::toRadians(10);
     _maxLSpeed = 1.2;
     _maxASpeed = Utils::toRadians(250);
+    _checkStall = true;
 }
 
 Player::~Player() {
@@ -86,7 +87,8 @@ void Player::printError() {
 }
 
 float Player::getLinearSpeed(float distError) {
-    float kp = 0.35;
+    float kp = 1.5;
+    //float kp = 0.55;
     float speed = kp*distError;
 
     float signal = speed/fabs(speed);
@@ -128,9 +130,9 @@ void Player::loop() {
     this->update();
 
     // Checks stall
-    if(_odometer->isStall()) {
-        setSpeed(-maxLSpeed(), 0.0, 0.0);
-        Thread::msleep(500);
+    if(_checkStall && _odometer->isStall()) {
+        setSpeed(-maxLSpeed(), 0.0, maxASpeed()/2);
+        Thread::msleep(300);
     }
 
     // Run behavior
@@ -157,6 +159,15 @@ bool Player::isLookingTo(const Position &pos) {
     float targetAngle = Utils::getAngle(position(), pos);
     float angDiff = Utils::angleDiff(orientation(), targetAngle);
     return (fabs(angDiff) <= _aError);
+}
+
+bool Player::isLookingTo(float angle) {
+    float angDiff = Utils::angleDiff(orientation(), angle);
+    return (fabs(angDiff) <= _aError);
+}
+
+bool Player::isLookingToBlob(const Blob &blob) {
+    return (fabs(40-blob.getCentroid().x()) < 4);
 }
 
 void Player::setBehavior(Behavior *behavior) {
@@ -199,6 +210,17 @@ void Player::lookTo(const Position &posToLook, bool avoidObstacles) {
     goToLookTo(position(), posToLook, avoidObstacles);
 }
 
+void Player::lookTo(float angle) {
+    float angError = angle - orientation();
+    float speedA = getAngularSpeed(angError);
+    setSpeed(0.0, 0.0, speedA);
+}
+
+void Player::lookToBlob(const Blob &blob) {
+    float speedA = 0.02*(40 - blob.getCentroid().x());
+    setSpeed(0.0, 0.0, speedA);
+}
+
 void Player::idle() {
     setSpeed(0.0, 0.0, 0.0);
 }
@@ -210,7 +232,7 @@ bool Player::goToBlob(const Blob &blob) {
     float distError = blob.getRange();
 
     // setSpeed
-    if(blob.getRange() > 0.32) {
+    if(blob.getRange() > 0.35) {
         float speedX = getLinearSpeed(distError);
         float speedA = 0.03*(40 - blob.getCentroid().x());
 

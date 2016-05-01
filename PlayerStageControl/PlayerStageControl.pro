@@ -68,7 +68,9 @@ SOURCES += \
     src/PlayerStageControl/utils/color/color.cc \
     src/PlayerStageControl/utils/vector/vector.cc \
     src/PlayerStageControl/utils/scanpoint/scanpoint.cc \
-    src/PlayerStageControl/player/behavior/basics/behavior_gripper.cc
+    src/PlayerStageControl/player/behavior/basics/behavior_gripper.cc \
+    src/PlayerStageControl/player/behavior/basics/behavior_getobjects.cc \
+    src/PlayerStageControl/utils/timer/timer.cc
 
 # Header files
 HEADERS += \
@@ -95,7 +97,10 @@ HEADERS += \
     src/PlayerStageControl/utils/color/color.hh \
     src/PlayerStageControl/utils/vector/vector.hh \
     src/PlayerStageControl/utils/scanpoint/scanpoint.hh \
-    src/PlayerStageControl/player/behavior/basics/behavior_gripper.hh
+    src/PlayerStageControl/player/behavior/basics/behavior_gripper.hh \
+    src/PlayerStageControl/player/behavior/basics/behavior_getobjects.hh \
+    src/PlayerStageControl/player/navigation/navigationalgorithm/fa/fa.hh \
+    src/PlayerStageControl/utils/timer/timer.hh
 
 # Other files
 DISTFILES += \

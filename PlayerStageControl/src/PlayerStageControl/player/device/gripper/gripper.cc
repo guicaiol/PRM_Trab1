@@ -36,6 +36,11 @@ Gripper::GripperState Gripper::state() {
     return (GripperState)_gripper->state;
 }
 
+bool Gripper::isAvailable() {
+    return (_gripper->state!=GripperState::UNAVAILABLE);
+
+}
+
 void Gripper::open() {
     playerc_gripper_open_cmd(_gripper);
 }

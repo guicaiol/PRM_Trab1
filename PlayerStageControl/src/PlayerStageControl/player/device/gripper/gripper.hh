@@ -37,6 +37,7 @@ public:
 
     // Gets
     GripperState state();
+    bool isAvailable();
 
     // Sets
     void open();

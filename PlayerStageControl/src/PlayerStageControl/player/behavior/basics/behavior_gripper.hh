@@ -22,8 +22,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef BEHAVIOR_TEST_HH
-#define BEHAVIOR_TEST_HH
+#ifndef BEHAVIOR_GRIPPER_HH
+#define BEHAVIOR_GRIPPER_HH
 
 #include <PlayerStageControl/player/behavior/behavior.hh>
 #include <PlayerStageControl/player/device/blobfinder/blob.hh>
@@ -50,4 +50,4 @@ private:
     bool getNearestBlob(Blob *nearestBlob);
 };
 
-#endif // BEHAVIOR_TEST_HH
+#endif // BEHAVIOR_GRIPPER_HH

@@ -51,10 +51,16 @@ public:
     // Position/orientation auxiliary
     bool isAtPosition(const Position &pos);
     bool isLookingTo(const Position &pos);
+    bool isLookingTo(float angle);
+    bool isLookingToBlob(const Blob &blob);
 
     // Max speeds
+    void setMaxLSpeed(float maxLSpeed) { _maxLSpeed = maxLSpeed; }
     float maxLSpeed() const { return _maxLSpeed; }
     float maxASpeed() const { return _maxASpeed; }
+
+    // Check stall
+    void setCheckStall(bool enable) { _checkStall = enable; }
 
     // Behavior
     void setBehavior(Behavior *behavior);
@@ -63,9 +69,11 @@ public:
     void goTo(const Position &destination, bool avoidObstacles);
     void goToLookTo(const Position &destination, const Position &posToLook, bool avoidObstacles);
     void lookTo(const Position &position, bool avoidObstacles);
+    void lookTo(float angle);
     void idle();
 
     bool goToBlob(const Blob &blob);
+    void lookToBlob(const Blob &blob);
 
     // Locomotion layer 0
     void setSpeed(float x, float y, float theta);
@@ -100,6 +108,9 @@ private:
     // Max speeds
     float _maxLSpeed;
     float _maxASpeed;
+
+    // Flags
+    bool _checkStall;
 
     // Speed calc
     float getLinearSpeed(float distError);
