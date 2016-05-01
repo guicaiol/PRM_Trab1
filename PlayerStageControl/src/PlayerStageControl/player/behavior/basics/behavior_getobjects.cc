@@ -42,6 +42,7 @@ void Behavior_GetObjects::addScanPoint(const Position &point, float scanStart, f
 void Behavior_GetObjects::run() {
 
     // Get objects
+    _mux->lock();
     if(_hasCurrObject || (_objList->empty()==false && player()->gripper()->isAvailable())) {
 
         if(_hasCurrObject==false) {
@@ -80,8 +81,6 @@ void Behavior_GetObjects::run() {
                     player()->idle();
                 break;
             }
-
-
         }
 
 
@@ -104,7 +103,7 @@ void Behavior_GetObjects::run() {
         }
 
     }
-
+    _mux->unlock();
 }
 
 void Behavior_GetObjects::state_goTo() {
@@ -132,7 +131,7 @@ void Behavior_GetObjects::state_scan() {
     float scanSpeed = 1.0;
 
     // Check scan end
-    float scanEnd = _scans.at(0).second;
+    float scanEnd = _scans.at(_currScanIndex).second;
     if(player()->isLookingTo(scanEnd)) {
         player()->idle();
 
@@ -188,15 +187,21 @@ void Behavior_GetObjects::state_scan() {
 
                     const float x = player()->position().x() + chosenBlob.getRange()*cos(player()->orientation());
                     const float y = player()->position().y() + chosenBlob.getRange()*sin(player()->orientation());
-                    std::cout << "found blob, x=" << x << ", y=" << y << "\n";
 
                     // Add to list
-                    _objList->push_back(Position(x, y));
+                    Position pos(x,y);
+                    bool alreadyInList = false;
+                    for(unsigned int i=0; i<_objList->size(); i++) {
+                        if(Utils::distance((pos), _objList->at(i)) <= 1.0) {
+                            alreadyInList = true;
+                            break;
+                        }
+                    }
+                    if(alreadyInList==false) {
+                        _objList->push_back(pos);
+                    }
                 }
             }
-
-
-
         }
 
     }
@@ -209,7 +214,10 @@ void Behavior_GetObjects::state_get_goTo() {
 
     // Check if it's seeing the blob
     if(Utils::distance(player()->position(), _currObj) < 2.0) {
-        player()->setCheckStall(false);
+
+        if(Utils::distance(player()->position(), _currObj) < 0.6) {
+            player()->setCheckStall(false);
+        }
 
         Blob nearestBlob;
         bool hasNearestBlob = getNearestBlob(&nearestBlob);

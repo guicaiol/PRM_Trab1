@@ -163,6 +163,9 @@ bool Player::isLookingTo(const Position &pos) {
 
 bool Player::isLookingTo(float angle) {
     float angDiff = Utils::angleDiff(orientation(), angle);
+    std::cout << "orientation" << Utils::toDegree(orientation()) << std::endl;
+    std::cout << "angle" << Utils::toDegree(angle) << std::endl;
+    std::cout << "angle diff" << angDiff << std::endl;
     return (fabs(angDiff) <= _aError);
 }
 

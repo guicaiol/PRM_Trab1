@@ -29,13 +29,14 @@
 #include <PlayerStageControl/player/device/blobfinder/blob.hh>
 
 #include <vector>
+#include <mutex>
 
 class Behavior_GetObjects : public Behavior {
 public:
     Behavior_GetObjects();
 
     void addScanPoint(const Position &point, float scanStart, float scanEnd);
-    void setObjectsList(std::vector<Position> *list) { _objList = list; }
+    void setObjectsList(std::vector<Position> *list, std::mutex *mux) { _objList = list; _mux = mux; }
 private:
     void run();
 
@@ -64,7 +65,9 @@ private:
 
     // Objects list
     std::vector<Position> *_objList;
+    // Mutex
     bool _hasCurrObject;
+    std::mutex *_mux;
     Position _currObj;
 
     bool getNearestBlob(Blob *nearestBlob);
