@@ -35,6 +35,7 @@ public:
     // Gets
     Position getPosition();
     float getOrientation();
+    bool isStall();
 
     // Sets
     void setSpeed(float x, float y, float theta);

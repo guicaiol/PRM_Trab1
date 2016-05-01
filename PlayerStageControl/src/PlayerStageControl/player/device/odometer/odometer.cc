@@ -40,6 +40,10 @@ float Odometer::getOrientation() {
     return _odometer->pa;
 }
 
+bool Odometer::isStall() {
+    return _odometer->stall;
+}
+
 void Odometer::setSpeed(float x, float y, float theta) {
     playerc_position2d_set_cmd_vel(_odometer, x, y, theta, 1);
 }
