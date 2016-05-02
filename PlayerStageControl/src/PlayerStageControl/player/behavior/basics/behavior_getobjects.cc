@@ -112,9 +112,23 @@ void Behavior_GetObjects::state_goTo() {
 
     Position posToGo = desiredPosition;
     if(isInRoom(desiredPosition)) {
-        posToGo = getTransitionPos(desiredPosition);
+        if(isInRoom(player()->position())){
+            posToGo = desiredPosition;
+        }
+        else{
+            posToGo = getTransitionPoint(desiredPosition);
+        }
     }
-    if(Utils::distance(player()->position(), posToGo) < 1.0 || isInRoom(player()->position())) {
+    else{
+        if(isInRoom(player()->position())){
+            posToGo = getTransitionPoint(player()->position());
+        }
+        else{
+            posToGo = desiredPosition;
+        }
+    }
+
+    if(Utils::distance(player()->position(), posToGo) < 1.0) {
         posToGo = desiredPosition;
     }
 
@@ -220,9 +234,23 @@ void Behavior_GetObjects::state_get_goTo() {
 
     Position posToGo = _currObj;
     if(isInRoom(_currObj)) {
-        posToGo = getTransitionPos(_currObj);
+        if(isInRoom(player()->position())){
+            posToGo = _currObj;
+        }
+        else{
+            posToGo = getTransitionPoint(_currObj);
+        }
     }
-    if(Utils::distance(player()->position(), posToGo) < 1.0 || isInRoom(player()->position())) {
+    else{
+        if(isInRoom(player()->position())){
+            posToGo = getTransitionPoint(player()->position());
+        }
+        else{
+            posToGo = _currObj;
+        }
+    }
+
+    if(Utils::distance(player()->position(), posToGo) < 1.0) {
         posToGo = _currObj;
     }
 
@@ -271,7 +299,7 @@ void Behavior_GetObjects::state_get_retrieve() {
 
     Position posToGo = Position(-2.0, 0.0);
     if(isInRoom(player()->position())) {
-        posToGo = getTransitionPos(player()->position());
+        posToGo = getTransitionPoint(player()->position());
     }
 
     // GoTo origin
@@ -335,7 +363,7 @@ bool Behavior_GetObjects::getNearestBlob(Blob *nearestBlob) {
     return hasNearestBlob;
 }
 
-Position Behavior_GetObjects::getTransitionPos(Position pos) {
+Position Behavior_GetObjects::getTransitionPoint(Position pos) {
     Position posToGo;
     if(pos.x() <= 7.5 && pos.y() >= 3.0){
         posToGo = Position(7.5,3.0);

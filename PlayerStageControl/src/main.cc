@@ -25,6 +25,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
+#include <mutex>
 
 #include <PlayerStageControl/player/player.hh>
 #include <PlayerStageControl/player/behavior/behaviors.hh>
@@ -65,21 +66,32 @@ int main() {
 
     // Objects list
     std::vector<Position> objList;
+    // Mutex
+    std::mutex mux;
 
     // Create behaviors
     Behavior_GetObjects *bh_get1 = new Behavior_GetObjects();
-    bh_get1->addScanPoint(Position(3.0, -2.5), Utils::toRadians(-180), Utils::toRadians(0));
-    bh_get1->setObjectsList(&objList);
+    bh_get1->addScanPoint(Position(3.0, -4.5), Utils::toRadians(0), Utils::toRadians(180));
+    bh_get1->addScanPoint(Position(3.0, -4.5), Utils::toRadians(180), Utils::toRadians(0));
+    bh_get1->addScanPoint(Position(13.0, -5.0), Utils::toRadians(0), Utils::toRadians(180));
+    bh_get1->addScanPoint(Position(13.0, -5.0), Utils::toRadians(180), Utils::toRadians(0));
+    bh_get1->setObjectsList(&objList, &mux);
 
     Behavior_GetObjects *bh_get2 = new Behavior_GetObjects();
-    bh_get2->addScanPoint(Position(7.5, 3.5), Utils::toRadians(-30), Utils::toRadians(190));
-    bh_get2->setObjectsList(&objList);
+    bh_get2->addScanPoint(Position(3.0, 5.0), Utils::toRadians(0), Utils::toRadians(180));
+    bh_get2->addScanPoint(Position(3.0, 5.0), Utils::toRadians(180), Utils::toRadians(0));
+    bh_get2->addScanPoint(Position(13.0, 5.0), Utils::toRadians(0), Utils::toRadians(180));
+    bh_get2->addScanPoint(Position(13.0, 5.0), Utils::toRadians(180), Utils::toRadians(0));
+    bh_get2->setObjectsList(&objList, &mux);
 
     Behavior_GetObjects *bh_get3 = new Behavior_GetObjects();
-    bh_get3->addScanPoint(Position(13.0, 0.0), Utils::toRadians(30), Utils::toRadians(330));
-    bh_get3->addScanPoint(Position(18.5, -3.5), Utils::toRadians(-210), Utils::toRadians(20));
-    bh_get3->addScanPoint(Position(23, 2.5), Utils::toRadians(0), Utils::toRadians(180));
-    bh_get3->setObjectsList(&objList);
+    bh_get3->addScanPoint(Position(13.0, 0.0), Utils::toRadians(10), Utils::toRadians(180));
+    bh_get3->addScanPoint(Position(13.0, 0.0), Utils::toRadians(180), Utils::toRadians(10));
+    bh_get3->addScanPoint(Position(23.0, -5.0), Utils::toRadians(0), Utils::toRadians(180));
+    bh_get3->addScanPoint(Position(23.0, -5.0), Utils::toRadians(180), Utils::toRadians(0));
+    bh_get3->addScanPoint(Position(23.0, 4.5), Utils::toRadians(0), Utils::toRadians(180));
+    bh_get3->addScanPoint(Position(23.0, 4.5), Utils::toRadians(180), Utils::toRadians(0));
+    bh_get3->setObjectsList(&objList, &mux);
 
     // Set behaviors
     player1.setBehavior(bh_get1);

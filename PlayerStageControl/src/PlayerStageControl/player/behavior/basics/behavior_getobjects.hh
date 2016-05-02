@@ -71,7 +71,7 @@ private:
     Position _currObj;
 
     bool getNearestBlob(Blob *nearestBlob);
-    Position getTransitionPos(Position pos);
+    Position getTransitionPoint(Position pos);
     bool isInRoom(Position pos);
 };
 
