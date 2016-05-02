@@ -113,7 +113,12 @@ void Behavior_GetObjects::state_goTo() {
     Position posToGo = desiredPosition;
     if(isInRoom(desiredPosition)) {
         if(isInRoom(player()->position())){
-            posToGo = desiredPosition;
+            if(isSamePoint(getTransitionPoint(player()->position()),getTransitionPoint(desiredPosition))){
+                posToGo = desiredPosition;
+            }
+            else{
+                posToGo = getTransitionPoint(player()->position());
+            }
         }
         else{
             posToGo = getTransitionPoint(desiredPosition);
@@ -235,7 +240,12 @@ void Behavior_GetObjects::state_get_goTo() {
     Position posToGo = _currObj;
     if(isInRoom(_currObj)) {
         if(isInRoom(player()->position())){
-            posToGo = _currObj;
+            if(isSamePoint(getTransitionPoint(player()->position()),getTransitionPoint(_currObj))){
+                posToGo = _currObj;
+            }
+            else{
+                posToGo = getTransitionPoint(player()->position());
+            }
         }
         else{
             posToGo = getTransitionPoint(_currObj);
@@ -365,14 +375,14 @@ bool Behavior_GetObjects::getNearestBlob(Blob *nearestBlob) {
 
 Position Behavior_GetObjects::getTransitionPoint(Position pos) {
     Position posToGo;
-    if(pos.x() <= 7.5 && pos.y() >= 3.0){
+    if(pos.x() <= 7.4 && pos.y() >= 3.1){
         posToGo = Position(7.5,3.0);
-    }else if(pos.x() <= 7.0 && pos.y() <= -2.0){
-        posToGo = Position(3.5,-1.5);;
-    }else if(pos.x() >= 19.0 && pos.y() >= 2.0){
-        posToGo = Position(22.5,1.5);
-    }else if(pos.x() >= 18.5 && pos.y() <= -3.0){
-        posToGo = Position(20.5,-3.0);
+    }else if(pos.x() <= 7.4 && pos.y() <= -2.5){
+        posToGo = Position(3.5,-1.0);;
+    }else if(pos.x() >= 18.6 && pos.y() >= 2.5){
+        posToGo = Position(22.5,1.0);
+    }else if(pos.x() >= 18.6 && pos.y() <= -3.1){
+        posToGo = Position(18.5,-3.0);
     } else{
         posToGo = pos;
     }
@@ -381,15 +391,22 @@ Position Behavior_GetObjects::getTransitionPoint(Position pos) {
 
 bool Behavior_GetObjects::isInRoom(Position pos) {
     bool inRoom = false;
-    if(pos.x() <= 7.5 && pos.y() >= 3.0){
+    if(pos.x() <= 7.4 && pos.y() >= 3.1){
         inRoom = true;
-    }else if(pos.x() <= 7.0 && pos.y() <= -2.0){
+    }else if(pos.x() <= 7.4 && pos.y() <= -2.5){
         inRoom = true;
-    }else if(pos.x() >= 19.0 && pos.y() >= 2.0){
+    }else if(pos.x() >= 18.6 && pos.y() >= 2.5){
         inRoom = true;
-    }else if(pos.x() >= 18.5 && pos.y() <= -3.0){
+    }else if(pos.x() >= 18.6 && pos.y() <= -3.1){
         inRoom = true;
     }
     return inRoom;
+}
+
+bool Behavior_GetObjects::isSamePoint(Position pos1, Position pos2){
+    if((pos1.x() == pos2.x()) && (pos1.y() == pos2.y())){
+        return true;
+    }
+    return false;
 }
 

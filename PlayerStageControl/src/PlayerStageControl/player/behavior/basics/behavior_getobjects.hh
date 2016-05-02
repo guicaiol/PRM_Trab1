@@ -73,6 +73,8 @@ private:
     bool getNearestBlob(Blob *nearestBlob);
     Position getTransitionPoint(Position pos);
     bool isInRoom(Position pos);
+    bool isSamePoint(Position pos1, Position pos2);
 };
+
 
 #endif // BEHAVIOR_GETOBJECTS_HH
