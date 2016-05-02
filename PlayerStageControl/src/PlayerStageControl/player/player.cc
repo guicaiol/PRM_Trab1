@@ -87,8 +87,7 @@ void Player::printError() {
 }
 
 float Player::getLinearSpeed(float distError) {
-    float kp = 1.5;
-    //float kp = 0.55;
+    float kp = 1.2;
     float speed = kp*distError;
 
     float signal = speed/fabs(speed);
@@ -102,7 +101,7 @@ float Player::getAngularSpeed(float angError) {
     if(angError < -Utils::pi())
         angError += Utils::twoPi();
 
-    float kp = 1.5;
+    float kp = 1.75;
     float speed = kp*angError;
 
     float signal = speed/fabs(speed);
@@ -226,15 +225,13 @@ void Player::idle() {
 }
 
 bool Player::goToBlob(const Blob &blob) {
-    /// TODO: implement avoidObstacles!
-
     // Calc dist error
     float distError = blob.getRange();
 
     // setSpeed
     if(blob.getRange() > 0.35) {
         float speedX = getLinearSpeed(distError);
-        float speedA = 0.03*(40 - blob.getCentroid().x());
+        float speedA = 0.04*(40 - blob.getCentroid().x());
 
         setSpeed(speedX, 0.0, speedA);
 

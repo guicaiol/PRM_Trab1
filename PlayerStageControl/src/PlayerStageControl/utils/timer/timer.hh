@@ -1,9 +1,12 @@
 /***
- * Warthog Robotics
- * University of Sao Paulo (USP) at Sao Carlos
- * http://www.warthog.sc.usp.br/
+ * SCC0712 - Programação de Robôs Móveis
+ * Universidade de São Paulo (USP) - São Carlos
+ * Instituto de Ciências Matemáticas e de Computação (ICMC)
+ * Autores: Guilherme Caixeta de Oliveira (gcaixetaoliveira@gmail.com) - nUSP 8504368
+ *          Luiz Felipe Machado Votto     (luizvotto@gmail.com)        - nUSP 8504006
+ *          Nuno Bernardes Barcellos      (nunobarcellos@gmail.com)    - nUSP 8955132
  *
- * This file is part of WRCoach project.
+ * This file is part of PlayerStageControl project.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

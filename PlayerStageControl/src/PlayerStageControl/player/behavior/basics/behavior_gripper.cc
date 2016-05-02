@@ -70,7 +70,6 @@ void Behavior_Gripper::state_search() {
     player()->gripper()->open();
 
     // Search algorithm (generate points)
-    /// TODO: implement search algorithm!
     Position destination = Position(26, 3);
     player()->goTo(destination, true);
 
