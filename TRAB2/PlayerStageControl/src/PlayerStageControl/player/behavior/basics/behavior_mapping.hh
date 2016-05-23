@@ -41,15 +41,18 @@ private:
     // Internal
     void resetView();
     void refreshView();
+    void updateAlzheimer();
     void updateMapToView();
 
     void drawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b);
 
     void drawPosition(const Position &pos, unsigned char r,  unsigned char g, unsigned char b);
-    void drawLine(const Position &p1, const Position &p2);
+    void mapLine(const Position &p1, const Position &p2);
+
+    void nunoMapPixel(int x, int y, float inc);
 
     // Mapping matrix
-    std::vector<std::vector<float> > _map;
+    std::vector<std::vector<float>> _map;
 
 
     // OpenCV image

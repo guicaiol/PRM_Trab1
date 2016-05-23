@@ -1,4 +1,4 @@
-/***
+﻿/***
  * SCC0712 - Programação de Robôs Móveis
  * Universidade de São Paulo (USP) - São Carlos
  * Instituto de Ciências Matemáticas e de Computação (ICMC)
@@ -38,13 +38,10 @@ Behavior_Mapping::Behavior_Mapping() {
     _width = (MAP_X_MAX-MAP_X_MIN)/RESOLUTION;
     _height = (MAP_Y_MAX-MAP_Y_MIN)/RESOLUTION;
 
-    std::cout << "width: " << _width << "\n";
-    std::cout << "height: " << _height << "\n";
-
     // Create map
-    _map.resize(_height);
+    _map.resize(_width);
     for(unsigned i=0; i<_map.size(); i++)
-        _map.at(i).resize(_width, 0.5);
+        _map[i].resize(_height, 0.5);
 
     // Create OpenCV image
     _image = cvCreateImage(cvSize(_width,_height), IPL_DEPTH_8U, 3);
@@ -72,13 +69,21 @@ void Behavior_Mapping::run() {
         float globalAngle = player()->orientation() + bearing;
         Position relPos(range*cos(globalAngle), range*sin(globalAngle));
         Position pos(player()->position().x() + relPos.x(), player()->position().y() + relPos.y());
-        drawLine(player()->position(), pos);
-
+        mapLine(player()->position(), pos);
 
         // Point
-        if(range < laser->getMaxRange())
-            drawPosition(pos, RGB_MAX, 0, 0);
+        if(range < laser->getMaxRange()) {
+            const int x = (pos.x()+MAP_X_MAX)/RESOLUTION;
+            const int y = _height - (pos.y()+MAP_Y_MAX)/RESOLUTION;
+
+            nunoMapPixel(x, y, -0.2);
+//            drawPosition(pos, RGB_MAX, 0, 0);
+        }
+
     }
+
+    // Apply Alzheimer
+    updateAlzheimer();
 
     // Update map to view
     updateMapToView();
@@ -97,8 +102,21 @@ void Behavior_Mapping::refreshView() {
     cvWaitKey(50);
 }
 
-void Behavior_Mapping::updateMapToView() {
+void Behavior_Mapping::updateAlzheimer() {
+    for(int i=0; i<_width; i++) {
+        for(int j=0; j<_height; j++) {
+            nunoMapPixel(i, j, -0.005);
+        }
+    }
+}
 
+void Behavior_Mapping::updateMapToView() {
+    for(int i=0; i<_width; i++) {
+        for(int j=0; j<_height; j++) {
+            float color = _map[i][j]*RGB_MAX;
+            drawPixel(i, j, color, color, color);
+        }
+    }
 }
 
 void Behavior_Mapping::drawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b) {
@@ -115,7 +133,7 @@ void Behavior_Mapping::drawPosition(const Position &pos, unsigned char r,  unsig
     drawPixel(x, y, r, g, b);
 }
 
-void Behavior_Mapping::drawLine(const Position &p1, const Position &p2) {
+void Behavior_Mapping::mapLine(const Position &p1, const Position &p2) {
     int x0 = (p1.x()+MAP_X_MAX)/RESOLUTION;
     int y0 = _height - (p1.y()+MAP_Y_MAX)/RESOLUTION;
     const int x1 = (p2.x()+MAP_X_MAX)/RESOLUTION;
@@ -126,10 +144,25 @@ void Behavior_Mapping::drawLine(const Position &p1, const Position &p2) {
     int err = (dx>dy ? dx : -dy)/2, e2;
 
     for(;;){
-        drawPixel(x0, y0, RGB_MAX, RGB_MAX, RGB_MAX);
+//        drawPixel(x0, y0, RGB_MAX, RGB_MAX, RGB_MAX);
+        nunoMapPixel(x0, y0, 0.1);
+
         if (x0==x1 && y0==y1) break;
         e2 = err;
         if (e2 >-dx) { err -= dy; x0 += sx; }
         if (e2 < dy) { err += dx; y0 += sy; }
     }
+}
+
+void Behavior_Mapping::nunoMapPixel(int x, int y, float inc) {
+    if(x<0 || y<0 || x>=_width || y>=_width)
+        return;
+
+    _map[x][y] += inc;
+
+    if(_map[x][y] > 1)
+        _map[x][y] = 1;
+
+    if(_map[x][y] < 0)
+        _map[x][y] = 0;
 }
