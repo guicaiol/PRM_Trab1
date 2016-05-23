@@ -1,5 +1,5 @@
-# PRM_Trab1
-Trabalho 1 - SSC0712 - Programação de Robôs Móveis
+# PRM_Trabalhos
+Trabalhos - SSC0712 - Programação de Robôs Móveis
 
 Autores:
 Guilherme Caixeta de Oliveira (gcaixetaoliveira@gmail.com) - nUSP 8504368
