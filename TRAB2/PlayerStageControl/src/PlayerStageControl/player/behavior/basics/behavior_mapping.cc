@@ -39,7 +39,7 @@ Behavior_Mapping::Behavior_Mapping() {
     _height = (MAP_Y_MAX-MAP_Y_MIN)/RESOLUTION;
 
     std::cout << "width: " << _width << "\n";
-    std::cout << "height: " << _width << "\n";
+    std::cout << "height: " << _height << "\n";
 
     // Create map
     _map.resize(_height);
@@ -74,12 +74,11 @@ void Behavior_Mapping::run() {
         Position pos(player()->position().x() + relPos.x(), player()->position().y() + relPos.y());
         drawLine(player()->position(), pos);
 
+
         // Point
         if(range < laser->getMaxRange())
             drawPosition(pos, RGB_MAX, 0, 0);
     }
-
-
 
     // Update map to view
     updateMapToView();
@@ -117,42 +116,20 @@ void Behavior_Mapping::drawPosition(const Position &pos, unsigned char r,  unsig
 }
 
 void Behavior_Mapping::drawLine(const Position &p1, const Position &p2) {
-    const int x1 = (p1.x()+MAP_X_MAX)/RESOLUTION;
-    const int y1 = _height - (p1.y()+MAP_Y_MAX)/RESOLUTION;
-    const int x2 = (p2.x()+MAP_X_MAX)/RESOLUTION;
-    const int y2 = _height - (p2.y()+MAP_Y_MAX)/RESOLUTION;
+    int x0 = (p1.x()+MAP_X_MAX)/RESOLUTION;
+    int y0 = _height - (p1.y()+MAP_Y_MAX)/RESOLUTION;
+    const int x1 = (p2.x()+MAP_X_MAX)/RESOLUTION;
+    const int y1 = _height - (p2.y()+MAP_Y_MAX)/RESOLUTION;
 
-    int slope;
-    int dx, dy, incE, incNE, d, x, y;
+    int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
+    int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1;
+    int err = (dx>dy ? dx : -dy)/2, e2;
 
-    // Onde inverte a linha x1 > x2
-    if (x1 > x2) {
-        drawLine(p2, p1);
-        return;
-    }
-    dx = x2 - x1;
-    dy = y2 - y1;
-
-    if (dy < 0) {
-        slope = -1;
-        dy = -dy;
-    } else {
-        slope = 1;
-    }
-
-    // Constante de Bresenham
-    incE = 2 * dy;
-    incNE = 2 * dy - 2 * dx;
-    d = 2 * dy - dx;
-    y = y1;
-    for (x = x1; x <= x2; x++){
-        drawPixel(x, y, RGB_MAX, RGB_MAX, RGB_MAX);
-
-        if (d <= 0) {
-            d += incE;
-        } else {
-            d += incNE;
-            y += slope;
-        }
+    for(;;){
+        drawPixel(x0, y0, RGB_MAX, RGB_MAX, RGB_MAX);
+        if (x0==x1 && y0==y1) break;
+        e2 = err;
+        if (e2 >-dx) { err -= dy; x0 += sx; }
+        if (e2 < dy) { err += dx; y0 += sy; }
     }
 }
