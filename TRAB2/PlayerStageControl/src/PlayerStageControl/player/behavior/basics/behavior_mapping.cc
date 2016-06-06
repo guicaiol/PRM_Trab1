@@ -54,7 +54,7 @@ Behavior_Mapping::~Behavior_Mapping() {
 
 void Behavior_Mapping::run() {
     // Player moviment
-    player()->idle();
+//    player()->idle();
 
     // Reset view
 //    resetView();
@@ -77,9 +77,11 @@ void Behavior_Mapping::run() {
             const int y = _height - (pos.y()+MAP_Y_MAX)/RESOLUTION;
 
             nunoMapPixel(x, y, -0.2);
+            nunoMapPixel(x+1, y, -0.2);
+            nunoMapPixel(x, y+1, -0.2);
+            nunoMapPixel(x+1, y+1, -0.2);
 //            drawPosition(pos, RGB_MAX, 0, 0);
         }
-
     }
 
     // Apply Alzheimer
@@ -87,6 +89,14 @@ void Behavior_Mapping::run() {
 
     // Update map to view
     updateMapToView();
+
+
+    // Find pos go
+    addPoints();
+    findPosToGo();
+
+    // Go to point
+    player()->goTo(_posToGo, true);
 
     // Refresh
     refreshView();
@@ -105,7 +115,8 @@ void Behavior_Mapping::refreshView() {
 void Behavior_Mapping::updateAlzheimer() {
     for(int i=0; i<_width; i++) {
         for(int j=0; j<_height; j++) {
-            nunoMapPixel(i, j, -0.005);
+            if(_map[i][j] > 0.5)
+                nunoMapPixel(i, j, -0.0008);
         }
     }
 }
@@ -165,4 +176,101 @@ void Behavior_Mapping::nunoMapPixel(int x, int y, float inc) {
 
     if(_map[x][y] < 0)
         _map[x][y] = 0;
+}
+
+void Behavior_Mapping::addPoints() {
+    _points.clear();
+
+    float k = 0.75;
+    float k1 = 0.39;
+    for(int i=2; i<_width-2; i+=2) {
+        for(int j=2; j<_height-2; j+=2) {
+            if(_map[i][j] > 0.3 && _map[i][j] < 0.7){
+                if(_map[i+1][j] > k || _map[i-1][j] > k || _map[i][j+1] > k || _map[i][j-1] > k ) {
+                    if(_map[i+1][j] > k1 && _map[i-1][j] > k1 && _map[i][j+1] > k1 && _map[i][j-1] > k1) {
+    //                    drawPixel(i,j,RGB_MAX,0,0);
+
+                        float x = i*RESOLUTION - MAP_X_MAX;
+                        float y = (_height-j)*RESOLUTION - MAP_Y_MAX;
+
+                        _points.push_back(Position(x,y));
+                    }
+                }
+            }
+        }
+    }
+
+    std::cout << "size: " << _points.size() << "\n";
+}
+
+void Behavior_Mapping::findPosToGo() {
+
+    std::cout << "size B4: " << _points.size() << "\n";
+
+    bool restart = true;
+
+    while(restart) {
+        restart = false;
+
+        for(int i=_points.size()-1; i>=0; i--) {
+            Position pos1 = _points.at(i);
+
+            for(int j=_points.size()-1; j>=0; j--) {
+                Position pos2 = _points.at(j);
+
+                if(i==j)
+                   continue;
+
+                float distance = Utils::distance(pos1, pos2);
+                if(distance <= 0.3) {
+                    Position newPos((pos1.x()+pos2.x())/2,(pos1.y()+pos2.y())/2);
+                    _points.erase(_points.begin()+i);
+                    _points.erase(_points.begin()+j);
+                    _points.push_back(newPos);
+                    restart = true;
+                    break;
+
+                }
+            }
+
+            if(restart)
+                break;
+        }
+
+    }
+
+
+    std::cout << "size AF: " << _points.size() << "\n";
+
+    for(int i=0; i<_points.size(); i++) {
+        Position pos = _points.at(i);
+
+        const int x = (pos.x()+MAP_X_MAX)/RESOLUTION;
+        const int y = _height - (pos.y()+MAP_Y_MAX)/RESOLUTION;
+        int r = RGB_MAX;
+        int g = 0;
+        int b = RGB_MAX;
+
+        drawPixel(x, y, r, g, b);
+        drawPixel(x+1, y, r, g, b);
+        drawPixel(x, y+1, r, g, b);
+        drawPixel(x-1, y, r, g, b);
+        drawPixel(x, y-1, r, g, b);
+
+        drawPixel(x+1, y+1, r, g, b);
+        drawPixel(x-1, y+1, r, g, b);
+        drawPixel(x+1, y-1, r, g, b);
+        drawPixel(x-1, y-1, r, g, b);
+    }
+
+    Position closestPoint = _points.at(0);
+    float minDistance = Utils::distance(player()->position(),closestPoint);
+    for(int i=1; i < _points.size(); i++) {
+        float distance = Utils::distance(player()->position(),_points.at(i));
+        if(distance < minDistance) {
+            minDistance = distance;
+            closestPoint = _points.at(i);
+        }
+    }
+    _posToGo = closestPoint;
 }

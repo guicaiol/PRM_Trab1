@@ -51,6 +51,15 @@ private:
 
     void nunoMapPixel(int x, int y, float inc);
 
+    void addPoints();
+    void findPosToGo();
+
+    // Pos to go
+    Position _posToGo;
+
+    // Points vector
+    std::vector<Position>_points;
+
     // Mapping matrix
     std::vector<std::vector<float>> _map;
 
