@@ -44,7 +44,7 @@ private:
     void updateAlzheimer();
     void updateMapToView();
 
-    void drawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b);
+    void drawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b, bool printExtra = false);
 
     void drawPosition(const Position &pos, unsigned char r,  unsigned char g, unsigned char b);
     void mapLine(const Position &p1, const Position &p2);

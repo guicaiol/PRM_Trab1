@@ -130,18 +130,37 @@ void Behavior_Mapping::updateMapToView() {
     }
 }
 
-void Behavior_Mapping::drawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b) {
+void Behavior_Mapping::drawPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b, bool printExtra) {
     if(x>=0 && y>=0 && x<=_width && y<=_height) {
         _image->imageData[3*((y*_width)+x)]   = b;
         _image->imageData[3*((y*_width)+x)+1] = g;
         _image->imageData[3*((y*_width)+x)+2] = r;
+
+        if(printExtra) {
+            drawPixel(x+1, y, r, g, b);
+            drawPixel(x, y+1, r, g, b);
+            drawPixel(x-1, y, r, g, b);
+            drawPixel(x, y-1, r, g, b);
+            drawPixel(x+1, y+1, r, g, b);
+            drawPixel(x+1, y-1, r, g, b);
+            drawPixel(x-1, y+1, r, g, b);
+            drawPixel(x-1, y-1, r, g, b);
+            drawPixel(x+2, y, r, g, b);
+            drawPixel(x, y+2, r, g, b);
+            drawPixel(x-2, y, r, g, b);
+            drawPixel(x, y-2, r, g, b);
+            drawPixel(x+2, y+2, r, g, b);
+            drawPixel(x+2, y-2, r, g, b);
+            drawPixel(x-2, y+2, r, g, b);
+            drawPixel(x-2, y-2, r, g, b);
+        }
     }
 }
 
 void Behavior_Mapping::drawPosition(const Position &pos, unsigned char r,  unsigned char g, unsigned char b) {
     const int x = (pos.x()+MAP_X_MAX)/RESOLUTION;
     const int y = _height - (pos.y()+MAP_Y_MAX)/RESOLUTION;
-    drawPixel(x, y, r, g, b);
+    drawPixel(x, y, r, g, b, true);
 }
 
 void Behavior_Mapping::mapLine(const Position &p1, const Position &p2) {
@@ -239,38 +258,42 @@ void Behavior_Mapping::findPosToGo() {
 
     }
 
-
     std::cout << "size AF: " << _points.size() << "\n";
 
-    for(int i=0; i<_points.size(); i++) {
-        Position pos = _points.at(i);
+//    for(unsigned int i=0; i<_points.size(); i++) {
+//        Position pos = _points.at(i);
 
-        const int x = (pos.x()+MAP_X_MAX)/RESOLUTION;
-        const int y = _height - (pos.y()+MAP_Y_MAX)/RESOLUTION;
-        int r = RGB_MAX;
-        int g = 0;
-        int b = RGB_MAX;
+//        const int x = (pos.x()+MAP_X_MAX)/RESOLUTION;
+//        const int y = _height - (pos.y()+MAP_Y_MAX)/RESOLUTION;
+//        int r = RGB_MAX;
+//        int g = 0;
+//        int b = RGB_MAX;
 
-        drawPixel(x, y, r, g, b);
-        drawPixel(x+1, y, r, g, b);
-        drawPixel(x, y+1, r, g, b);
-        drawPixel(x-1, y, r, g, b);
-        drawPixel(x, y-1, r, g, b);
+//        drawPixel(x, y, r, g, b);
+//        drawPixel(x+1, y, r, g, b);
+//        drawPixel(x, y+1, r, g, b);
+//        drawPixel(x-1, y, r, g, b);
+//        drawPixel(x, y-1, r, g, b);
 
-        drawPixel(x+1, y+1, r, g, b);
-        drawPixel(x-1, y+1, r, g, b);
-        drawPixel(x+1, y-1, r, g, b);
-        drawPixel(x-1, y-1, r, g, b);
-    }
+//        drawPixel(x+1, y+1, r, g, b);
+//        drawPixel(x-1, y+1, r, g, b);
+//        drawPixel(x+1, y-1, r, g, b);
+//        drawPixel(x-1, y-1, r, g, b);
+//    }
 
     Position closestPoint = _points.at(0);
     float minDistance = Utils::distance(player()->position(),closestPoint);
-    for(int i=1; i < _points.size(); i++) {
+    for(unsigned int i=1; i < _points.size(); i++) {
         float distance = Utils::distance(player()->position(),_points.at(i));
         if(distance < minDistance) {
+//            float pointAngle = Utils::getAngle(player()->position(), _points.at(i));
+//            float angDiff = Utils::angleDiff(player()->orientation(), pointAngle);
+//            if(angDiff >= Utils::toRadians(40))
+//                continue;
             minDistance = distance;
             closestPoint = _points.at(i);
         }
     }
     _posToGo = closestPoint;
+    drawPosition(_posToGo,RGB_MAX,0,0);
 }
